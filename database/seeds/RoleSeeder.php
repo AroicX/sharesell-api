@@ -25,14 +25,12 @@ class RoleSeeder extends Seeder
             'Reseller\'s offer their services to user in return for payment';
         $role->save();
 
-
         $role = new Role();
         $role->role_id = 3;
         $role->name = 'Suppliers';
         $role->description =
             'Supplier\'s offer their services to reselle\'s in return for payment';
         $role->save();
-
 
         $role = new Role();
         $role->role_id = 4;
