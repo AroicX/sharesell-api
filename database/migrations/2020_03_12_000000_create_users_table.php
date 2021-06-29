@@ -32,14 +32,13 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('last_login')->nullable();
             $table->json('last_ip_used')->nullable();
-            $table
-                ->enum('registration_steps', [
-                    'check-phone',
-                    'verify-otp',
-                    'quick-registration',
-                    'step-4',
-                ])
-                ->default('check-phone');
+            $table->string('registration_steps')->nullable();
+            //     'check-phone',
+            //     'verify-otp',
+            //     'quick-registration',
+            //     'step-4',
+            // ])
+
             $table
                 ->enum('status', ['active', 'dormant', 'pending', 'blocked'])
                 ->default('pending');
