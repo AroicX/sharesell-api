@@ -32,6 +32,10 @@ $api->version('v1', function (Router $api) {
             'App\\Http\\Controllers\\Authentication\\BaseController@step_three_create_account'
         );
         $api->post(
+            'verify_one_time_password',
+            'App\\Http\\Controllers\\Authentication\\BaseController@one_time_password'
+        );
+        $api->post(
             'register',
             'App\\Http\\Controllers\\Authentication\\RegistrationController@register'
         );

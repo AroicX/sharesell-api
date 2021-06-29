@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Supplier;
 use Illuminate\Http\Request;
 use App\User;
+use Carbon\Carbon;
 
 class BaseController extends Controller
 {
@@ -54,7 +55,9 @@ class BaseController extends Controller
         $one_time_password = $request->otp;
         $user = User::where('one_time_password', $one_time_password)->first();
         if ($user) {
-            $user->status = 'step-1';
+            $user->email_verified = true;
+            $user->email_verified_at = Carbon::now();
+            $user->registration_steps = 'verify-otp';
             $user->save();
             return $this->jsonFormat(
                 200,
@@ -67,7 +70,7 @@ class BaseController extends Controller
                 404,
                 'erro',
                 'One time password is invaild',
-                $one_time_password
+                ['otp' => $one_time_password]
             );
         }
     }
