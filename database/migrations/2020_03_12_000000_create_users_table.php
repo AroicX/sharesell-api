@@ -31,7 +31,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('last_login')->nullable();
-            $table->json('last_ip_used')->nullable();
+            $table->longText('last_ip_used')->nullable();
             $table
                 ->enum('registration_steps', [
                     'check-phone',
