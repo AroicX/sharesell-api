@@ -26,10 +26,7 @@ class RegistrationController extends Controller
     {
 
 
-
-
         try {
-
             $email = $request->email;
 
             // create new user
@@ -51,11 +48,6 @@ class RegistrationController extends Controller
             $profile->gender = $request->gender;
             $profile->save();
 
-            //add if artisan
-//            if($request->primary_role === Config::get('helper.roles.user'){
-//                $artisan = new Artisan();
-//                $artisan->
-//            }
 
             if(!$user->save()) {
                 throw new HttpException(500);
@@ -63,8 +55,6 @@ class RegistrationController extends Controller
             if(!$profile->save()) {
                 throw new HttpException(500);
             }
-
-
 
 
             Mail::to($email)->send(new RegistrationMailer($user));

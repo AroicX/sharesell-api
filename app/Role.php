@@ -8,6 +8,6 @@ class role extends Model
 {
     public function getUserByRole()
     {
-       return $this->hasMany(User::class);
+        return $this->hasMany(User::class);
     }
 }

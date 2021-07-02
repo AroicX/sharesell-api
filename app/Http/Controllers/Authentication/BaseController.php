@@ -7,6 +7,11 @@ use App\Supplier;
 use Illuminate\Http\Request;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class BaseController extends Controller
 {
@@ -75,8 +80,10 @@ class BaseController extends Controller
         }
     }
 
-    public function step_three_create_account(Request $request)
-    {
+    public function step_three_create_account(
+        Request $request,
+        JWTAuth $JWTAuth
+    ) {
         $user_id = $request->user_id;
         $business_name = $request->business_name;
         $bvn_number = $request->bvn_number;
@@ -91,30 +98,54 @@ class BaseController extends Controller
         $this->validateParameter('password', $password, STRING, true);
         $this->validateParameter('re_password', $re_password, STRING, true);
 
-        //save user
-        $user = User::where('user_id', $user_id)->first();
-        $user->email = $email;
-        $user->password = $email;
-        $user->registration_steps = 'quick-registration';
-        $user->save();
+        if (!User::where('user_id', $user_id)->first()) {
+            return $this->jsonFormat(
+                404,
+                'error',
+                'Account with id ' . $user_id . ' not found.',
+                null
+            );
+        }
 
-        //save supplier
-        $supplier = Supplier::where('user_id', $user_id)->first();
-        $supplier->business_name = $business_name;
-        $supplier->business_registered = $isRegistered;
-        $supplier->bvn = $bvn_number;
-        $supplier->save();
+        try {
+            //save user
+            $user = User::where('user_id', $user_id)->first();
+            $user->email = $email;
+            $user->password = $password;
+            $user->registration_steps = 'quick-registration';
+            $user->save();
 
-        $_user = User::where('user_id', $user_id)
-            ->with('supplier')
-            ->first();
+            //save supplier
+            $supplier = Supplier::where('user_id', $user_id)->first();
+            $supplier->business_name = $business_name;
+            $supplier->business_registered = $isRegistered;
+            $supplier->bvn = $bvn_number;
+            $supplier->save();
 
-        return $this->jsonFormat(
-            200,
-            'success',
-            'Account created successfully',
-            $_user
-        );
+            $credentials = $request->only(['email', 'password']);
+
+            try {
+                $token = Auth::attempt($credentials);
+                if (!$token) {
+                    throw new AccessDeniedHttpException();
+                }
+            } catch (JWTException $e) {
+                throw new HttpException(500);
+            }
+            return $this->jsonFormat(
+                200,
+                'success',
+                'Account created successfully',
+                [
+                    User::where('user_id', $user_id)
+                        ->with('supplier')
+                        ->first(),
+                    'token' => $token,
+                ]
+            );
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
     }
 
     //

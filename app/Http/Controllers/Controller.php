@@ -105,10 +105,10 @@ class Controller extends BaseController
         return $random . '' . $newId;
     }
 
-    public function getLastProfileId()
-    {
-        $lastId = Profile::orderBy('profile_id', 'desc')->first('profile_id');
-        $newId = $lastId ? $lastId['profile_id'] + 1 : 1;
-        return '00' . $newId;
-    }
+    // public function getLastProfileId()
+    // {
+    //     $lastId = Profile::orderBy('profile_id', 'desc')->first('profile_id');
+    //     $newId = $lastId ? $lastId['profile_id'] + 1 : 1;
+    //     return '00' . $newId;
+    // }
 }

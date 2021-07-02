@@ -46,7 +46,7 @@ class LoginController extends Controller
                 ];
             }
 
-            $token = Auth::guard()->attempt($credentials);
+            $token = Auth::attempt($credentials);
 
             // return $token;
 
