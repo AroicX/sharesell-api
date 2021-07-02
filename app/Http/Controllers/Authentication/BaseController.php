@@ -106,14 +106,6 @@ class BaseController extends Controller
                 null
             );
         }
-        if (User::where('user_id', $user_id)->first()) {
-            return $this->jsonFormat(
-                404,
-                'error',
-                'Account with id ' . $user_id . ' already exists.',
-                null
-            );
-        }
 
         try {
             //save user
