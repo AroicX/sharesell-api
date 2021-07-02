@@ -106,6 +106,14 @@ class BaseController extends Controller
                 null
             );
         }
+        if (User::where('user_id', $user_id)->first()) {
+            return $this->jsonFormat(
+                404,
+                'error',
+                'Account with id ' . $user_id . ' already exists.',
+                null
+            );
+        }
 
         try {
             //save user
@@ -122,6 +130,10 @@ class BaseController extends Controller
             $supplier->bvn = $bvn_number;
             $supplier->save();
 
+            $_user = User::where('user_id', $user_id)
+                ->with('supplier')
+                ->first();
+
             $credentials = $request->only(['email', 'password']);
 
             try {
@@ -136,12 +148,7 @@ class BaseController extends Controller
                 200,
                 'success',
                 'Account created successfully',
-                [
-                    User::where('user_id', $user_id)
-                        ->with('supplier')
-                        ->first(),
-                    'token' => $token,
-                ]
+                ['user' => $_user, 'token' => $token]
             );
         } catch (\Throwable $th) {
             return $th->getMessage();
