@@ -76,61 +76,69 @@ $api->version('v1', function (Router $api) {
         });
 
         $api->group(
-            ['prefix' => 'user', 'middleware' => 'user.roles'],
+            ['prefix' => 'update-profile', 'middleware' => 'user.roles'],
             function (Router $api) {
-                $api->get(
-                    'get-profile',
-                    'App\\Http\\Controllers\\ProfileController@show'
+                $api->post(
+                    'business-details',
+                    'App\\Http\\Controllers\\UserController@updateBusinessDetails'
                 );
                 $api->post(
-                    'update-profile/{user_id}',
-                    'App\\Http\\Controllers\\ProfileController@update'
+                    'contact-person',
+                    'App\\Http\\Controllers\\UserController@updateContactPerson'
+                );
+                $api->post(
+                    'update-bvn',
+                    'App\\Http\\Controllers\\UserController@updateBVN'
+                );
+                $api->post(
+                    'next-of-kin',
+                    'App\\Http\\Controllers\\UserController@updateNextOfKin'
                 );
             }
         );
 
-        /**
-         * Artisan Prefixed Routes Only
-         */
+        // /**
+        //  * Artisan Prefixed Routes Only
+        //  */
 
-        $api->group(
-            ['prefix' => 'artisan', 'middleware' => 'artisan.roles'],
-            function (Router $api) {
-                $api->get(
-                    '/',
-                    'App\\Http\\Controllers\\ArtisanController@index'
-                );
-                $api->get(
-                    '/profile/{artisan_id}',
-                    'App\\Http\\Controllers\\ArtisanController@show'
-                );
-                $api->post(
-                    '/update/{artisan_id}',
-                    'App\\Http\\Controllers\\ArtisanController@update'
-                );
-                $api->post(
-                    '/destroy/{artisan_id}',
-                    'App\\Http\\Controllers\\ArtisanController@destroy'
-                );
-            }
-        );
+        // $api->group(
+        //     ['prefix' => 'artisan', 'middleware' => 'artisan.roles'],
+        //     function (Router $api) {
+        //         $api->get(
+        //             '/',
+        //             'App\\Http\\Controllers\\ArtisanController@index'
+        //         );
+        //         $api->get(
+        //             '/profile/{artisan_id}',
+        //             'App\\Http\\Controllers\\ArtisanController@show'
+        //         );
+        //         $api->post(
+        //             '/update/{artisan_id}',
+        //             'App\\Http\\Controllers\\ArtisanController@update'
+        //         );
+        //         $api->post(
+        //             '/destroy/{artisan_id}',
+        //             'App\\Http\\Controllers\\ArtisanController@destroy'
+        //         );
+        //     }
+        // );
 
-        /**
-         * Administrator Prefixed Routes only
-         */
+        // /**
+        //  * Administrator Prefixed Routes only
+        //  */
 
-        $api->group(
-            ['prefix' => 'administrator', 'middleware' => 'admins.roles'],
-            function (Router $api) {
-                /**
-                 * Profile Crud
-                 */
-                $api->get(
-                    'delete-profile/{user_id}',
-                    'App\\Http\\Controllers\\ProfileController@delete'
-                );
-            }
-        );
+        // $api->group(
+        //     ['prefix' => 'administrator', 'middleware' => 'admins.roles'],
+        //     function (Router $api) {
+        //         /**
+        //          * Profile Crud
+        //          */
+        //         $api->get(
+        //             'delete-profile/{user_id}',
+        //             'App\\Http\\Controllers\\ProfileController@delete'
+        //         );
+        //     }
+        // );
     });
 });
 

@@ -25,7 +25,8 @@ class CreateUsersTable extends Migration
                 ->string('email')
                 ->unique()
                 ->nullable();
-            $table->char('gender', 1)->nullable(); //M-Male, F-> Female
+            $table->enum('gender', ['Male', 'Female']); //M-Male, F-> Female
+            $table->string('bvn')->nullable(); //M-Male, F-> Female
             $table->string('one_time_password')->nullable();
             $table->boolean('email_verified')->nullable();
             $table->timestamp('email_verified_at')->nullable();
