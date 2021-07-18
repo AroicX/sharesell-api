@@ -115,15 +115,18 @@
                           <div class="profile_info">
                               <img src="{{asset('img/client_img.png')}}" alt="#">
                               <div class="profile_info_iner">
-                                  <div class="profile_author_name">
-                                      <p>{{Auth::User()->role->name}} </p>
-                                      <h5>{{Auth::User()->first_name.' '.Auth::User()->last_name}}</h5>
-                                  </div>
-                                  <div class="profile_info_details">
-                                      <a href="#">My Profile </a>
-                                      <a href="#">Settings</a>
-                                      <a href="{{ route('logout') }}">Log Out </a>
-                                  </div>
+                                @auth
+                                <div class="profile_author_name">
+                                    <p>{{Auth::User()->role->name}} </p>
+                                    <h5>{{Auth::User()->first_name.' '.Auth::User()->last_name}}</h5>
+                                </div>
+                                <div class="profile_info_details">
+                                    <a href="#">My Profile </a>
+                                    <a href="#">Settings</a>
+                                    <a href="{{ route('logout') }}">Log Out </a>
+                                </div>
+                             @endauth
+                                
                               </div>
                           </div>
                       </div>
