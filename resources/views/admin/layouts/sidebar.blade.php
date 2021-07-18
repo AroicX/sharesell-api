@@ -13,7 +13,7 @@
   </div>
   <ul id="sidebar_menu">
       <li>
-          <a href="index-2.html" aria-expanded="false">
+          <a href="{{url('/administrator/dashboard')}}" aria-expanded="false">
               <div class="nav_icon_small">
                   <img src="{{asset('img/menu-icon/dashboard.svg')}}" alt="">
               </div>
