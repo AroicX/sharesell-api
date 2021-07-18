@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AdministratorAuthenticationController;
 use App\Http\Controllers\AdministratorController;
-
+use App\Http\Controllers\ProductCategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,11 +27,26 @@ Route::group(['prefix' => 'administrator'], function () {
     ]);
 
     // Auth::routes();
-Route::get('/logout', [AdministratorAuthenticationController::class, "logout"])->name('logout')->middleware('auth');
-
+    Route::get('/logout', [
+        AdministratorAuthenticationController::class,
+        'logout',
+    ])
+        ->name('logout')
+        ->middleware('auth');
 
     Route::get('/dashboard', [
         AdministratorController::class,
         'getDashboard',
     ])->name('dashboard');
+
+    Route::group(['prefix' => 'products'], function () {
+        Route::get('/category', [
+            ProductCategoryController::class,
+            'index',
+        ])->name('product.category');
+        Route::post('/category', [
+            ProductCategoryController::class,
+            'create',
+        ])->name('product.category.create');
+    });
 });

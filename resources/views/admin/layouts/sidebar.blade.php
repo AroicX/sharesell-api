@@ -22,7 +22,22 @@
               </div>
           </a>
       </li>
-
+      <h4 class="menu-text"><span>Products</span> <i class="fas fa-ellipsis-h"></i> </h4>
+      <li class="">
+        <a class="has-arrow" href="#" aria-expanded="false">
+            <div class="nav_icon_small">
+                <img src="{{asset('img/menu-icon/5.svg')}}" alt="">
+            </div>
+            <div class="nav_title">
+                <span>Products </span>
+            </div>
+        </a>
+        <ul class="mm-collapse" style="height: 5px;">
+          <li><a href="{{route('product.category')}}">Add Category</a></li>
+          <li><a href="mail_box.html">Add Product</a></li>
+     
+        </ul>
+    </li>
     </ul>
 </nav>
 <!--/ sidebar  -->
