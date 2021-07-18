@@ -15,20 +15,31 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'AdministratorController@login')->name('login');
 
-Route::group(['prefix' => 'administrator'], function () {
-    // Route::get('/login', 'AdministratorAuth\LoginController@showLoginForm')->name('login');
-    Route::post('/login', 'AdministratorController@loginSubmit');
-    // Route::post('/logout', 'AdministratorAuth\LoginController@logout')->name('logout');
-  
-    // Route::get('/register', 'AdministratorAuth\RegisterController@showRegistrationForm')->name('register');
-    // Route::post('/register', 'AdministratorAuth\RegisterController@register');
-  
-    // Route::post('/password/email', 'AdministratorAuth\ForgotPasswordController@sendResetLinkEmail')->name('password.request');
-    // Route::post('/password/reset', 'AdministratorAuth\ResetPasswordController@reset')->name('password.email');
-    // Route::get('/password/reset', 'AdministratorAuth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
-    // Route::get('/password/reset/{token}', 'AdministratorAuth\ResetPasswordController@showResetForm');
-  });
+// Route::group(['prefix' => 'administrator'], function () {
+//     Route::post('/login', 'AdministratorController@loginSubmit');
 
-// Route::get('/activation', function () {
-//     return view('mail.auth.activation');
+//     // Auth::routes();
+
+//     Route::get('/dashboard', 'AdministratorController@getDashboard')->name(
+//         'dashboard'
+//     );
 // });
+
+// Auth::routes();
+
+// Route::get('/home', [
+//     App\Http\Controllers\HomeController::class,
+//     'index',
+// ])->name('home');
+Auth::routes();
+
+Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
+
+Route::group(['middleware' => 'auth'], function () {
+	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
+	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
+	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
+	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
+	Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
+});
+

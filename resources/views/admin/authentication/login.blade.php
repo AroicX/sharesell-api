@@ -24,6 +24,13 @@
           </div>
             <form class="form-horizontal" role="form" method="POST" action="{{ url('/administrator/login') }}">
               {{ csrf_field() }}
+              @if ($errors->any())
+              <div class="alert alert-warning">
+                  @foreach ($errors->all() as $error)
+                  <li>{{$error}}</li>
+                  @endforeach
+              </div>
+              @endif
               <div class="row">
                 <div class="col-lg-12">
                   <label for="email">Email</label>

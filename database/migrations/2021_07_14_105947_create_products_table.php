@@ -15,8 +15,8 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->uuid('user_id')->unsigned();
-            $table->uuid('product_category');
+            $table->uuid('user_id')->nullable();
+            $table->uuid('product_category')->nullable();
             $table->string('product_name');
             $table->longText('product_images');
             $table->longText('product_description');
@@ -32,11 +32,11 @@ class CreateProductsTable extends Migration
             $table
                 ->enum('status', ['available', 'unavailable', 'out-of-stock'])
                 ->default('available');
-            $table
-                ->foreign('product_category')
-                ->references('category_id')
-                ->on('product_categories')
-                ->onDelete('cascade');
+            // $table
+            //     ->foreign('product_category')
+            //     ->references('category_id')
+            //     ->on('product_categories');
+                // ->onDelete('cascade');
             $table->unique('user_id');
             $table->softDeletes();
             $table->timestamps();

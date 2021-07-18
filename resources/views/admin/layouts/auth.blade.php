@@ -47,13 +47,15 @@
     <!-- style CSS -->
     <link rel="stylesheet" href="{{asset('css/style.css') }}" />
     <link rel="stylesheet" href="{{asset('css/colors/default.css') }}" id="colorSkinCSS">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+
 </head>
 <body class="crm_body_bg">
     
-{{-- @include('admin.layouts.sidebar') --}}
+
 
 <section class="  ">
-  {{-- @include('admin.layouts.menu') --}}
+
   @yield('content')
 </section>
 <!-- main content part end -->
@@ -66,7 +68,33 @@
         <i class="ti-angle-up"></i>
     </a>
 </div>
-{{-- @include('admin.layouts.footer') --}}
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    @if(Session::has('message'))
+    var type = "{{ Session::get('alert', 'info') }}";
+
+
+    switch (type) {
+        case 'info':
+            toastr.info("{{ Session::get('message') }}");
+            break;
+
+        case 'warning':
+            toastr.warning("{{ Session::get('message') }}");
+            break;
+
+        case 'success':
+            toastr.success("{{ Session::get('message') }}");
+            break;
+
+        case 'error':
+            toastr.error("{{ Session::get('message') }}");
+            break;
+    }
+    @endif
+
+</script>
 </body>
 </html>

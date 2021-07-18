@@ -20,12 +20,12 @@ class AdministratorMiddleware extends Middleware
     public function handle($request, Closure $next)
     {
         $user = Auth::User();
-        if($user->primary_role != Config::get('helper.roles.administrator')){
+        if ($user->primary_role != Config::get('helper.roles.administrator')) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'unauthorized user access denied'
+                'message' => 'unauthorized user access denied',
             ]);
-        }else{
+        } else {
             return $next($request);
         }
     }
