@@ -76,7 +76,7 @@ class UserController extends Controller
         );
         $this->validateParameter('lastname', $request->lastname, STRING, true);
         $this->validateParameter('gender', $request->gender, STRING, true);
-        $this->validateParameter('email', $request->email, STRING, true);
+        // $this->validateParameter('email', $request->email, STRING, true);
         $this->validateParameter(
             'phone_number',
             $request->phone_number,
@@ -99,7 +99,7 @@ class UserController extends Controller
         try {
             $user->first_name = $request->firstname;
             $user->last_name = $request->lastname;
-            $user->email = $request->email;
+            // $user->email = $request->email;
             $user->gender = $request->gender;
             $user->phone = $request->phone_number;
             $user->save();

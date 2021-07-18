@@ -12,19 +12,22 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ResetPasswordController extends Controller
 {
-    public function resetPassword(ResetPasswordRequest $request, JWTAuth $JWTAuth)
-    {
+    public function resetPassword(
+        ResetPasswordRequest $request,
+        JWTAuth $JWTAuth
+    ) {
         $response = $this->broker()->reset(
-            $this->credentials($request), function ($user, $password) {
+            $this->credentials($request),
+            function ($user, $password) {
                 $this->reset($user, $password);
             }
         );
 
-        if($response !== Password::PASSWORD_RESET) {
+        if ($response !== Password::PASSWORD_RESET) {
             throw new HttpException(500);
         }
 
-        if(!Config::get('boilerplate.reset_password.release_token')) {
+        if (!Config::get('boilerplate.reset_password.release_token')) {
             return response()->json([
                 'status' => 'ok',
             ]);
@@ -34,7 +37,7 @@ class ResetPasswordController extends Controller
 
         return response()->json([
             'status' => 'ok',
-            'token' => $JWTAuth->fromUser($user)
+            'token' => $JWTAuth->fromUser($user),
         ]);
     }
 
@@ -57,7 +60,10 @@ class ResetPasswordController extends Controller
     protected function credentials(ResetPasswordRequest $request)
     {
         return $request->only(
-            'email', 'password', 'password_confirmation', 'token'
+            'email',
+            'password',
+            'password_confirmation',
+            'token'
         );
     }
 

@@ -43,28 +43,6 @@ $api->version('v1', function (Router $api) {
             'login',
             'App\\Http\\Controllers\\Authentication\\LoginController@login'
         );
-        $api->get(
-            'verify/{token}',
-            'App\\Http\\Controllers\\Authentication\\EmailVerificationController@email_verification'
-        );
-        $api->post(
-            'recovery',
-            'App\\Http\Controllers\\Authentication\\ForgotPasswordController@sendResetEmail'
-        );
-        $api->post(
-            'reset',
-            'App\\Http\Controllers\\Authentication\\ResetPasswordController@resetPassword'
-        );
-
-        $api->post(
-            'logout',
-            'App\\Http\Controllers\\Authentication\\LogoutController@logout'
-        );
-        $api->post(
-            'refresh',
-            'App\\Http\Controllers\\Authentication\\RefreshController@refresh'
-        );
-        // $api->get('me', 'App\\Api\\V1\\Controllers\\Authentication\\UserController@me');
     });
 
     $api->group(['middleware' => 'protected.auth'], function (Router $api) {
@@ -96,52 +74,11 @@ $api->version('v1', function (Router $api) {
                 );
             }
         );
-
-        // /**
-        //  * Artisan Prefixed Routes Only
-        //  */
-
-        // $api->group(
-        //     ['prefix' => 'artisan', 'middleware' => 'artisan.roles'],
-        //     function (Router $api) {
-        //         $api->get(
-        //             '/',
-        //             'App\\Http\\Controllers\\ArtisanController@index'
-        //         );
-        //         $api->get(
-        //             '/profile/{artisan_id}',
-        //             'App\\Http\\Controllers\\ArtisanController@show'
-        //         );
-        //         $api->post(
-        //             '/update/{artisan_id}',
-        //             'App\\Http\\Controllers\\ArtisanController@update'
-        //         );
-        //         $api->post(
-        //             '/destroy/{artisan_id}',
-        //             'App\\Http\\Controllers\\ArtisanController@destroy'
-        //         );
-        //     }
-        // );
-
-        // /**
-        //  * Administrator Prefixed Routes only
-        //  */
-
-        // $api->group(
-        //     ['prefix' => 'administrator', 'middleware' => 'admins.roles'],
-        //     function (Router $api) {
-        //         /**
-        //          * Profile Crud
-        //          */
-        //         $api->get(
-        //             'delete-profile/{user_id}',
-        //             'App\\Http\\Controllers\\ProfileController@delete'
-        //         );
-        //     }
-        // );
+        $api->group(['prefix' => 'products'], function (Router $api) {
+            $api->post(
+                'add-products',
+                'App\\Http\\Controllers\\ProductController@create'
+            );
+        });
     });
 });
-
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });

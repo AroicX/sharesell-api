@@ -62,7 +62,9 @@ class LoginController extends Controller
             'last_ip_used' => json_encode($last_ip),
         ]);
 
-        $current_user = User::where('user_id', Auth::user()->user_id)->first();
+        $current_user = User::where('user_id', Auth::user()->user_id)
+            ->with('supplier')
+            ->first();
 
         return response()->json([
             'status' => '200',
