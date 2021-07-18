@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdministratorAuthenticationController;
+use App\Http\Controllers\AdministratorController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,33 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'AdministratorController@login')->name('login');
+Route::get('/', [AdministratorAuthenticationController::class, 'login'])->name(
+    'login'
+);
 
-// Route::group(['prefix' => 'administrator'], function () {
-//     Route::post('/login', 'AdministratorController@loginSubmit');
+Route::group(['prefix' => 'administrator'], function () {
+    Route::post('/login', [
+        AdministratorAuthenticationController::class,
+        'loginSubmit',
+    ]);
 
-//     // Auth::routes();
+    // Auth::routes();
+Route::get('/logout', [AdministratorAuthenticationController::class, "logout"])->name('logout')->middleware('auth');
 
-//     Route::get('/dashboard', 'AdministratorController@getDashboard')->name(
-//         'dashboard'
-//     );
-// });
 
-// Auth::routes();
-
-// Route::get('/home', [
-//     App\Http\Controllers\HomeController::class,
-//     'index',
-// ])->name('home');
-Auth::routes();
-
-Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');
-
-Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
-	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
-	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
-	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
-	Route::get('{page}', ['as' => 'page.index', 'uses' => 'App\Http\Controllers\PageController@index']);
+    Route::get('/dashboard', [
+        AdministratorController::class,
+        'getDashboard',
+    ])->name('dashboard');
 });
-

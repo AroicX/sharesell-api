@@ -46,9 +46,10 @@ class LoginController extends Controller
                 ];
             }
 
-            $token = Auth::attempt($credentials);
-
-            // return $token;
+            // $token = Auth::attempt($credentials);
+            $token = auth()
+                ->guard('api')
+                ->attempt($credentials);
 
             if (!$token) {
                 throw new AccessDeniedHttpException();
@@ -57,12 +58,22 @@ class LoginController extends Controller
             throw new HttpException(500);
         }
 
-        User::where('user_id', Auth::user()->user_id)->update([
+        User::where(
+            'user_id',
+            auth()
+                ->guard('api')
+                ->user()->user_id
+        )->update([
             'last_login' => $last_login->today()->toDateString(),
             'last_ip_used' => json_encode($last_ip),
         ]);
 
-        $current_user = User::where('user_id', Auth::user()->user_id)
+        $current_user = User::where(
+            'user_id',
+            auth()
+                ->guard('api')
+                ->user()->user_id
+        )
             ->with('supplier')
             ->first();
 

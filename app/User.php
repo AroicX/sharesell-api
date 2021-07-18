@@ -60,6 +60,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Supplier::class, 'user_id', 'user_id');
     }
+    public function role()
+    {
+        return $this->hasOne(Role::class, 'id', 'primary_role');
+    }
 
     // public function role()
     // {
