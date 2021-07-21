@@ -75,9 +75,14 @@ $api->version('v1', function (Router $api) {
             }
         );
         $api->group(['prefix' => 'products'], function (Router $api) {
+            $api->get('/', 'App\\Http\\Controllers\\ProductController@index');
             $api->post(
                 'add-products',
                 'App\\Http\\Controllers\\ProductController@create'
+            );
+            $api->delete(
+                'delete-product/{category_id}',
+                'App\\Http\\Controllers\\ProductController@delete'
             );
         });
     });

@@ -22,8 +22,8 @@ class CreateProductsTable extends Migration
             $table->longText('product_description');
             $table->integer('product_price');
             $table->integer('product_weight');
-            $table->integer('product_size');
-            $table->integer('product_quantity');
+            $table->enum('product_size', ['S', 'M', 'L', 'XL', '2XL']);
+            $table->string('product_quantity');
             $table->integer('product_number');
             $table->integer('product_retail_price');
             $table->longText('pickup_addreess');
@@ -36,8 +36,7 @@ class CreateProductsTable extends Migration
             //     ->foreign('product_category')
             //     ->references('category_id')
             //     ->on('product_categories');
-                // ->onDelete('cascade');
-            $table->unique('user_id');
+            // ->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

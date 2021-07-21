@@ -50,3 +50,23 @@ Route::group(['prefix' => 'administrator'], function () {
         ])->name('product.category.create');
     });
 });
+
+Route::get('/test', function () {
+    $categories = [
+        'Men’s Fashion ',
+        'Women’s Fashion',
+        'Kids’ Fashion',
+        'Beauty & Cosmetics',
+        'Gifts',
+        'Home & Kitchen',
+        'Jewelries & Accessories',
+        'Groceries & Beverages',
+        'Toys & Baby Products',
+        'Sports & Fitness',
+        'Health & Wellness',
+    ];
+
+    foreach ($categories as $value) {
+        dd($value);
+    }
+});

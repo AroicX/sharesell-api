@@ -15,4 +15,13 @@ class ProductCategory extends Model
         'category_type',
         'status',
     ];
+
+    public function products()
+    {
+        return $this->hasMany(
+            Product::class,
+            'products_category',
+            'category_id'
+        );
+    }
 }
