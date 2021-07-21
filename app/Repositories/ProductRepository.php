@@ -4,9 +4,9 @@ namespace App\Repositories;
 
 use App\Http\Controllers\Controller;
 use App\Product;
-use Auth;
+// use Auth;
 
-use App\User;
+// use App\User;
 use Illuminate\Http\Request;
 
 class ProductRepository extends Controller implements ProductRepositoryInterface
