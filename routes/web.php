@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdministratorAuthenticationController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\ProductCategoryController;
+use App\ProductCategory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,7 +52,7 @@ Route::group(['prefix' => 'administrator'], function () {
     });
 });
 
-Route::get('/test', function () {
+Route::get('/seed-categories', function () {
     $categories = [
         'Men’s Fashion ',
         'Women’s Fashion',
@@ -67,6 +68,12 @@ Route::get('/test', function () {
     ];
 
     foreach ($categories as $value) {
-        dd($value);
+        $category = new ProductCategory();
+        $category->category_id = sprintf('%06d', mt_rand(1, 9999));
+        $category->category_name = $value;
+        $category->category_type = $value;
+        $category->save();
     }
+
+    return 'done';
 });
