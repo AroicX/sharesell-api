@@ -252,10 +252,10 @@
                         <div class="profile_info_iner">
                             @auth
                             <div class="profile_author_name">
-                              
-                                <p>{{Auth::User() ? Auth::User()->role->name : ''}}</p>
+
+                                <p>{{Auth::User()->role?->name}}</p>
                                 <h5>
-                                    {{Auth::User() ? Auth::User()->first_name.' '.Auth::User()->last_name : ''}}
+                                    {{Auth::User()?->first_name.' '.Auth::User()?->last_name}}
                                 </h5>
                             </div>
                             <div class="profile_info_details">
