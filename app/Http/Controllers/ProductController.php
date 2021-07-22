@@ -20,7 +20,7 @@ class ProductController extends Controller
 
     public function dashboard()
     {
-        $products = Products::all()->with('');
+        $products = Products::with('category', 'user')->get();
 
         return view('admin.products.index', ['products' => $products]);
     }
