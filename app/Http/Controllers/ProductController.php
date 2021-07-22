@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ProductCategory;
+use App\ProductCategories;
 use App\Repositories\ProductRepositoryInterface;
 use App\User;
 use Illuminate\Http\Request;
@@ -104,7 +104,7 @@ class ProductController extends Controller
             );
         }
         if (
-            !ProductCategory::where(
+            !ProductCategories::where(
                 'category_id',
                 $request->product_category
             )->first()

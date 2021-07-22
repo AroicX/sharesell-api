@@ -20,15 +20,7 @@
                       <div class="page_date_button"  data-toggle="modal" data-target="#addCategoryModal">
                         Add Category 
                       </div>
-                      {{-- <div class="dropdown common_bootstrap_button ">
-                          <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                           action
-                          </span>
-                          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" >
-                            <a class="dropdown-item f_s_16 f_w_600" href="#"> Add Category</a>
-                            <a class="dropdown-item f_s_16 f_w_600" href="#"> Print</a>
-                          </div>
-                        </div> --}}
+                      
                   </div>
               </div>
           </div>
@@ -42,9 +34,7 @@
                     <div class="white_card card_height_100 mb_30">
                         <div class="white_card_header">
                             <div class="box_header m-0">
-                                {{-- <div class="main-title">
-                                    <h3 class="m-0">Data table</h3>
-                                </div> --}}
+                                
                             </div>
                         </div>
                         <div class="white_card_body">

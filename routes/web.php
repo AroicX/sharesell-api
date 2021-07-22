@@ -3,7 +3,7 @@
 use App\Http\Controllers\AdministratorAuthenticationController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\ProductCategoryController;
-use App\ProductCategory;
+use App\ProductCategories;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,6 +41,9 @@ Route::group(['prefix' => 'administrator'], function () {
     ])->name('dashboard');
 
     Route::group(['prefix' => 'products'], function () {
+        Route::get('/category', [ProductController::class, 'dashboard'])->name(
+            'products'
+        );
         Route::get('/category', [
             ProductCategoryController::class,
             'index',
@@ -68,7 +71,7 @@ Route::get('/seed-categories', function () {
     ];
 
     foreach ($categories as $value) {
-        $category = new ProductCategory();
+        $category = new ProductCategories();
         $category->category_id = sprintf('%06d', mt_rand(1, 9999));
         $category->category_name = $value;
         $category->category_type = $value;

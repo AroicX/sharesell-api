@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\ProductCategory;
+use App\ProductCategories;
 use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
@@ -11,7 +11,7 @@ class ProductCategoryController extends Controller
 
     public function index()
     {
-        $categories = ProductCategory::all();
+        $categories = ProductCategories::all();
 
         // return $categories;
 
@@ -22,7 +22,7 @@ class ProductCategoryController extends Controller
     {
         // return $request->all();
         try {
-            $category = new ProductCategory();
+            $category = new ProductCategories();
             $category->category_id = sprintf('%06d', mt_rand(1, 999999));
             $category->category_name = $request->category_name;
             $category->category_type = $request->category_type;

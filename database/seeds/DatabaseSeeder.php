@@ -1,7 +1,7 @@
 <?php
 
-use App\ProductCategory;
 use App\User;
+use App\ProductCategories;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($categories as $value) {
-            $category = new ProductCategory();
+            $category = new ProductCategories();
             $category->category_id = sprintf('%06d', mt_rand(1, 9999));
             $category->category_name = $value;
             $category->category_type = $value;

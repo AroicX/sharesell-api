@@ -3,7 +3,8 @@
 namespace App\Repositories;
 
 use App\Http\Controllers\Controller;
-use App\Product;
+
+use App\Products;
 // use Auth;
 
 // use App\User;
@@ -14,7 +15,7 @@ class ProductRepository extends Controller implements ProductRepositoryInterface
     public function index()
     {
         try {
-            $products = Product::where('status', 'available')
+            $products = Products::where('status', 'available')
                 ->with('category', 'user')
                 ->get();
             return $products;
@@ -28,7 +29,7 @@ class ProductRepository extends Controller implements ProductRepositoryInterface
         // TODO: Implement create() method.
 
         try {
-            $product = new Product();
+            $product = new Products();
 
             $product->user_id = $request->user_id;
             $product->product_category = $request->product_category;
@@ -68,7 +69,7 @@ class ProductRepository extends Controller implements ProductRepositoryInterface
     public function delete($id)
     {
         try {
-            return Product::where('id', $id)->delete();
+            return Products::where('id', $id)->delete();
         } catch (\Throwable $th) {
             throw $th;
         }
