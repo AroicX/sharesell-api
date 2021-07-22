@@ -44,9 +44,9 @@
             </a>
             <ul class="mm-collapse" style="height: 5px">
                 <li>
-                    <a href="{{ route('product.category') }}">Add Category</a>
+                <a href="{{ route('product.category') }}">Add Category</a> 
                 </li>
-                <li><a href="{{ route('products') }}">Add Product</a></li>
+            <li><a href="{{ route('product.index') }}">Add Product</a></li> 
             </ul>
         </li>
     </ul>

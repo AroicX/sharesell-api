@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdministratorAuthenticationController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use App\ProductCategories;
 use Illuminate\Support\Facades\Route;
 
@@ -41,8 +42,8 @@ Route::group(['prefix' => 'administrator'], function () {
     ])->name('dashboard');
 
     Route::group(['prefix' => 'products'], function () {
-        Route::get('/category', [ProductController::class, 'dashboard'])->name(
-            'products'
+        Route::get('/index', [ProductController::class, 'dashboard'])->name(
+            'product.index'
         );
         Route::get('/category', [
             ProductCategoryController::class,

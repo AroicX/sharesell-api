@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ProductCategories;
+use App\Products;
 use App\Repositories\ProductRepositoryInterface;
 use App\User;
 use Illuminate\Http\Request;
@@ -15,6 +16,13 @@ class ProductController extends Controller
     {
         $this->productRepository = $productRepository;
         // $this->middleware('protected.auth');
+    }
+
+    public function dashboard()
+    {
+        $products = Products::all()->with('');
+
+        return view('admin.products.index', ['products' => $products]);
     }
 
     public function index()

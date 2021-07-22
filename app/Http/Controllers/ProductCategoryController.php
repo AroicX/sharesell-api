@@ -13,8 +13,6 @@ class ProductCategoryController extends Controller
     {
         $categories = ProductCategories::all();
 
-        // return $categories;
-
         return view('admin.products.category', ['categories' => $categories]);
     }
 
