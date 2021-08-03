@@ -75,6 +75,10 @@ $api->version('v1', function (Router $api) {
             }
         );
         $api->group(['prefix' => 'products'], function (Router $api) {
+            $api->get(
+                '/categories',
+                'App\\Http\\Controllers\\ProductCategoryController@api'
+            );
             $api->get('/', 'App\\Http\\Controllers\\ProductController@index');
             $api->post(
                 'add-products',

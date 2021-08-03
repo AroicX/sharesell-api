@@ -9,6 +9,17 @@ class ProductCategoryController extends Controller
 {
     //
 
+    public function api()
+    {
+        $categories = ProductCategories::paginate(10);
+        return $this->jsonFormat(
+            200,
+            'success',
+            count($categories) . ' categories found',
+            $categories
+        );
+    }
+
     public function index()
     {
         $categories = ProductCategories::all();

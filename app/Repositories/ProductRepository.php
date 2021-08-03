@@ -17,7 +17,7 @@ class ProductRepository extends Controller implements ProductRepositoryInterface
         try {
             $products = Products::where('status', 'available')
                 ->with('category', 'user')
-                ->get();
+                ->paginate(50);
             return $products;
         } catch (\Throwable $th) {
             throw $th;
