@@ -49,4 +49,5 @@ class ProductCategoryController extends Controller
             throw $th;
         }
     }
+
 }

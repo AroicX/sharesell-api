@@ -84,6 +84,10 @@ $api->version('v1', function (Router $api) {
                 'add-products',
                 'App\\Http\\Controllers\\ProductController@create'
             );
+            $api->put(
+                'update-product',
+                'App\\Http\\Controllers\\ProductController@update'
+            );
             $api->delete(
                 'delete-product/{category_id}',
                 'App\\Http\\Controllers\\ProductController@delete'

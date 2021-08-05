@@ -58,10 +58,27 @@ class ProductRepository extends Controller implements ProductRepositoryInterface
     {
         //TODO:
         try {
-            // $products = Product::where('status', 'available')
-            //     ->with('category', 'user')
-            //     ->get();
-            // return $products;
+            $id = $request->product_id;
+
+            $data = [
+                'product_category' => $request->product_category,
+                'product_name' => $request->product_name,
+                'product_images' => 'none',
+                'product_description' => $request->product_description,
+                'product_price' => $request->product_price,
+                'product_weight' => $request->product_weight,
+                'product_size' => $request->product_size,
+                'product_quantity' => $request->product_quantity,
+                'product_number' => $request->product_number,
+                'product_retail_price' => $request->product_retail_price,
+                'pickup_addreess' => $request->pickup_addreess,
+                'state' => $request->state,
+                'city' => $request->city,
+            ];
+
+            $product = Products::where('id', $id)->update($data);
+
+            return $product;
         } catch (\Throwable $th) {
             throw $th;
         }

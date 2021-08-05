@@ -134,6 +134,33 @@ class ProductController extends Controller
         );
     }
 
+    public function update(Request $request)
+    {
+        $getProduct = Products::where('id', $request->product_id)
+            ->with('category', 'user')
+            ->first();
+
+        if (!$getProduct) {
+            return $this->jsonFormat(
+                404,
+                'error',
+                'Product with id ' . $request->product_id . ' not found.',
+                null
+            );
+        }
+
+        $p = $this->productRepository->update($request);
+
+        return $this->jsonFormat(
+            200,
+            'success',
+            'Updated Product Successfully',
+            Products::where('id', $request->product_id)
+                ->with('category', 'user')
+                ->first()
+        );
+    }
+
     public function delete($id = null)
     {
         $product = $this->productRepository->delete($id);
