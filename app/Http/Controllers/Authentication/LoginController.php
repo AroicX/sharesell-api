@@ -68,14 +68,30 @@ class LoginController extends Controller
             'last_ip_used' => json_encode($last_ip),
         ]);
 
-        $current_user = User::where(
-            'user_id',
-            auth()
-                ->guard('api')
-                ->user()->user_id
-        )
-            ->with('supplier')
-            ->first();
+        $current_user = null;
+        // 3 means suppliers
+        if (intval($validate->primary_role) === intval(3)) {
+            //save supplier
+            $current_user = User::where(
+                'user_id',
+                auth()
+                    ->guard('api')
+                    ->user()->user_id
+            )
+                ->with('supplier')
+                ->first();
+        }
+        if (intval($validate->primary_role) === intval(2)) {
+            //save reseller
+            $current_user = User::where(
+                'user_id',
+                auth()
+                    ->guard('api')
+                    ->user()->user_id
+            )
+                ->with('reseller')
+                ->first();
+        }
 
         return response()->json([
             'status' => '200',

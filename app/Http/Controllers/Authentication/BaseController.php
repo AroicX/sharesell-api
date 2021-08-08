@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
+use App\Reseller;
 use App\Supplier;
 use Illuminate\Http\Request;
 use App\User;
@@ -32,17 +33,30 @@ class BaseController extends Controller
             $new_user->phone = $phone;
             $new_user->primary_role = $role;
             $new_user->one_time_password = $random;
-            $new_user->save();
 
             switch ($role) {
                 case '3':
+                    $new_user->save();
                     $supplier = new Supplier();
                     $supplier->user_id = $new_user->user_id;
                     $supplier->save();
+
+                    break;
+                case '2':
+                    $new_user->save();
+                    $reseller = new Reseller();
+                    $reseller->user_id = $new_user->user_id;
+                    $reseller->save();
+
                     break;
 
                 default:
-                    # code...
+                    return $this->jsonFormat(
+                        404,
+                        'error',
+                        'Role id  ' . $role . ' not found',
+                        null
+                    );
                     break;
             }
 
@@ -85,6 +99,10 @@ class BaseController extends Controller
         JWTAuth $JWTAuth
     ) {
         $user_id = $request->user_id;
+        $role_check = User::where('user_id', $user_id)
+            ->with('role')
+            ->first();
+
         $business_name = $request->business_name;
         $bvn_number = $request->bvn_number;
         $isRegistered = $request->isRegistered;
@@ -115,21 +133,40 @@ class BaseController extends Controller
             $user->registration_steps = 'quick-registration';
             $user->save();
 
-            //save supplier
-            $supplier = Supplier::where('user_id', $user_id)->first();
-            $supplier->business_name = $business_name;
-            $supplier->business_registered = $isRegistered;
-            $supplier->bvn = $bvn_number;
-            $supplier->save();
+            $_user = null;
+            // 3 means suppliers
+            if (intval($role_check->primary_role) === intval(3)) {
+                //save supplier
+                $supplier = Supplier::where('user_id', $user_id)->first();
+                $supplier->business_name = $business_name;
+                $supplier->business_registered = $isRegistered;
+                $supplier->bvn = $bvn_number;
+                $supplier->save();
 
-            $_user = User::where('user_id', $user_id)
-                ->with('supplier')
-                ->first();
+                $_user = User::where('user_id', $user_id)
+                    ->with('supplier')
+                    ->first();
+            }
+            // 2 means suppliers
+            if (intval($role_check->primary_role) === intval(2)) {
+                //save supplier
+                $supplier = Reseller::where('user_id', $user_id)->first();
+                $supplier->business_name = $business_name;
+                $supplier->business_registered = $isRegistered;
+                $supplier->bvn = $bvn_number;
+                $supplier->save();
+
+                $_user = User::where('user_id', $user_id)
+                    ->with('reseller')
+                    ->first();
+            }
 
             $credentials = $request->only(['email', 'password']);
 
             try {
-                $token = Auth::attempt($credentials);
+                $token = auth()
+                    ->guard('api')
+                    ->attempt($credentials);
                 if (!$token) {
                     throw new AccessDeniedHttpException();
                 }
