@@ -43,6 +43,11 @@ $api->version('v1', function (Router $api) {
             'login',
             'App\\Http\\Controllers\\Authentication\\LoginController@login'
         );
+
+        $api->post(
+            'refresh',
+            'App\\Http\Controllers\\Authentication\\RefreshController@refresh'
+        );
     });
 
     $api->group(['middleware' => 'protected.auth'], function (Router $api) {
