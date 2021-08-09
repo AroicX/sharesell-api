@@ -10,6 +10,40 @@ class UserController extends Controller
 {
     //
 
+    public function getProfile($user_id = null)
+    {
+        $result = null;
+        if ($user_id) {
+            $result = User::where('user_id', $user_id)
+                ->with('reseller', 'supplier')
+                ->first();
+            if (!$result) {
+                return $this->jsonFormat(
+                    404,
+                    'error',
+                    'User with id ' . $user_id . ' not found.',
+                    null
+                );
+            }
+        } else {
+            $result = User::where(
+                'user_id',
+                auth()
+                    ->guard('api')
+                    ->user()->user_id
+            )
+                ->with('reseller', 'supplier')
+                ->first();
+        }
+
+        return $this->jsonFormat(
+            200,
+            'success',
+            'User found successfully',
+            $result
+        );
+    }
+
     public function updateBusinessDetails(Request $request)
     {
         $user_id = $request->user_id;

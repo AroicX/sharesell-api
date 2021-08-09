@@ -54,6 +54,19 @@ $api->version('v1', function (Router $api) {
         });
 
         $api->group(
+            ['prefix' => 'user', 'middleware' => 'user.roles'],
+            function (Router $api) {
+                $api->get(
+                    'profile',
+                    'App\\Http\\Controllers\\UserController@getProfile'
+                );
+                $api->get(
+                    'profile/{user_id}',
+                    'App\\Http\\Controllers\\UserController@getProfile'
+                );
+            }
+        );
+        $api->group(
             ['prefix' => 'update-profile', 'middleware' => 'user.roles'],
             function (Router $api) {
                 $api->post(
@@ -79,7 +92,13 @@ $api->version('v1', function (Router $api) {
                 '/categories',
                 'App\\Http\\Controllers\\ProductCategoryController@api'
             );
+            //get products in category
+            $api->get(
+                '/category/{category_id}',
+                'App\\Http\\Controllers\\ProductCategoryController@getCategoryProducts'
+            );
             $api->get('/', 'App\\Http\\Controllers\\ProductController@index');
+            $api->get('/search/{name}', 'App\\Http\\Controllers\\ProductController@searchProducts');
             $api->post(
                 'add-products',
                 'App\\Http\\Controllers\\ProductController@create'

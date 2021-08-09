@@ -18,6 +18,18 @@ class ProductController extends Controller
         // $this->middleware('protected.auth');
     }
 
+    public function searchProducts($name = null)
+    {
+        $products = Products::where('product_name', 'LIKE', "%{$name}%")->get();
+
+        return $this->jsonFormat(
+            200,
+            'success',
+            count($products) . ' products found.',
+            $products
+        );
+    }
+
     public function dashboard()
     {
         $products = Products::with('category', 'user')->get();

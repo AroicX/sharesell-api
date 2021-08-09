@@ -20,6 +20,18 @@ class ProductCategoryController extends Controller
         );
     }
 
+    public function getCategoryProducts($category_id = null)
+    {
+        $categories = ProductCategories::where('category_id', $category_id)
+            ->with('products')
+            ->paginate(50);
+
+        if (!$categories) {
+            return $this->jsonFormat(404, 'error', 'Category not found', null);
+        }
+        return $this->jsonFormat(200, 'success', 'Products found', $categories);
+    }
+
     public function index()
     {
         $categories = ProductCategories::all();
@@ -49,5 +61,4 @@ class ProductCategoryController extends Controller
             throw $th;
         }
     }
-
 }
