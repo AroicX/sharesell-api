@@ -18,6 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/checkout-form', function () {
+    return view('payments.form');
+});
+Route::get('/payments', function () {
+    return view('payments.paystack');
+});
 Route::get('/', [AdministratorAuthenticationController::class, 'login'])->name(
     'login'
 );

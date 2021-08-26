@@ -34,6 +34,8 @@ class ProductController extends Controller
     {
         $products = Products::with('category', 'user')->get();
 
+        // dd($products);
+
         return view('admin.products.index', ['products' => $products]);
     }
 

@@ -101,8 +101,20 @@ class Controller extends BaseController
     {
         $lastId = User::orderBy('user_id', 'desc')->first('user_id');
         $newId = $lastId ? $lastId['user_id'] + 1 : 1;
-        $random = sprintf('%06d', mt_rand(1, 999999));
-        return $random . '' . $newId;
+        $random = mt_rand(1, 99);
+        return '000' . $random . '' . $newId;
+    }
+
+    function random_string($length)
+    {
+        $key = '';
+        $keys = array_merge(range(0, 9), range('A', 'Z'));
+
+        for ($i = 0; $i < $length; $i++) {
+            $key .= $keys[array_rand($keys)];
+        }
+
+        return $key;
     }
 
     // public function getLastProfileId()

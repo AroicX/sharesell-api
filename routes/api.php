@@ -69,6 +69,22 @@ $api->version('v1', function (Router $api) {
                     'profile/{user_id}',
                     'App\\Http\\Controllers\\UserController@getProfile'
                 );
+                $api->get(
+                    'address',
+                    'App\\Http\\Controllers\\AddressController@index'
+                );
+                $api->post(
+                    'address/create',
+                    'App\\Http\\Controllers\\AddressController@create'
+                );
+                $api->put(
+                    'address/update/{address_id}',
+                    'App\\Http\\Controllers\\AddressController@edit'
+                );
+                $api->delete(
+                    'address/delete/{address_id}',
+                    'App\\Http\\Controllers\\AddressController@delete'
+                );
             }
         );
         $api->group(
@@ -103,7 +119,10 @@ $api->version('v1', function (Router $api) {
                 'App\\Http\\Controllers\\ProductCategoryController@getCategoryProducts'
             );
             $api->get('/', 'App\\Http\\Controllers\\ProductController@index');
-            $api->get('/search/{name}', 'App\\Http\\Controllers\\ProductController@searchProducts');
+            $api->get(
+                '/search/{name}',
+                'App\\Http\\Controllers\\ProductController@searchProducts'
+            );
             $api->post(
                 'add-products',
                 'App\\Http\\Controllers\\ProductController@create'
@@ -115,6 +134,12 @@ $api->version('v1', function (Router $api) {
             $api->delete(
                 'delete-product/{category_id}',
                 'App\\Http\\Controllers\\ProductController@delete'
+            );
+        });
+        $api->group(['prefix' => 'shipping'], function (Router $api) {
+            $api->post(
+                '/generate-payment-link',
+                'App\\Http\\Controllers\\ShippingController@quote'
             );
         });
     });
