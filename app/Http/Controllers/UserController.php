@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Supplier;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -233,6 +234,50 @@ class UserController extends Controller
             );
         } catch (\Throwable $th) {
             throw $th;
+        }
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $old_password = $request->old_password;
+        $new_password = $request->new_password;
+        $confirm_password = $request->confirm_password;
+
+        $current_user = auth()
+            ->guard('api')
+            ->user()->user_id;
+
+        $auth_user_password = auth()
+            ->guard('api')
+            ->user()->password;
+
+        if (Hash::check($old_password, $auth_user_password, [])) {
+            if ($new_password === $confirm_password) {
+                $user = User::where('user_id', $current_user)->first();
+                $user->password = $new_password;
+                $user->save();
+
+                return $this->jsonFormat(
+                    200,
+                    'success',
+                    'You Have Channged your Password !',
+                    null
+                );
+            } else {
+                return $this->jsonFormat(
+                    500,
+                    'error',
+                    'New Password & Confirm Password No Match ',
+                    null
+                );
+            }
+        } else {
+            return $this->jsonFormat(
+                500,
+                'error',
+                'Old Password is invaild ',
+                null
+            );
         }
     }
 }

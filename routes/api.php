@@ -65,6 +65,10 @@ $api->version('v1', function (Router $api) {
                     'profile',
                     'App\\Http\\Controllers\\UserController@getProfile'
                 );
+                $api->post(
+                    'change-password',
+                    'App\\Http\\Controllers\\UserController@updatePassword'
+                );
                 $api->get(
                     'profile/{user_id}',
                     'App\\Http\\Controllers\\UserController@getProfile'
