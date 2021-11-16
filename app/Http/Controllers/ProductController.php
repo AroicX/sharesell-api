@@ -46,7 +46,25 @@ class ProductController extends Controller
         return $this->jsonFormat(
             200,
             'success',
-            count($products) . ' products found.',
+            count($products) >= 2 ? ' products found.' : 'product found',
+            $products
+        );
+    }
+    public function getRecentProducts()
+    {
+        $products = Products::latest()
+            ->with('category', 'user')
+            ->take(6)
+            ->get();
+
+        $length = count($products);
+
+        return $this->jsonFormat(
+            200,
+            'success',
+            $length >= 2
+                ? $length . ' products found.'
+                : $length . ' product found',
             $products
         );
     }

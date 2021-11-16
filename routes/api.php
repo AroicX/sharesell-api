@@ -122,6 +122,12 @@ $api->version('v1', function (Router $api) {
                 '/category/{category_id}',
                 'App\\Http\\Controllers\\ProductCategoryController@getCategoryProducts'
             );
+            //get recent products
+            $api->get(
+                '/recent-products',
+                'App\\Http\\Controllers\\ProductController@getRecentProducts'
+            );
+            //
             $api->get('/', 'App\\Http\\Controllers\\ProductController@index');
             $api->get(
                 '/search/{name}',
@@ -146,5 +152,16 @@ $api->version('v1', function (Router $api) {
                 'App\\Http\\Controllers\\ShippingController@quote'
             );
         });
+    });
+
+    $api->group(['prefix' => 'transaction'], function (Router $api) {
+        // $api->get(
+        //     'get-transactions',
+        //     'App\\Http\\Controllers\\TranscationsController@getTrans'
+        // );
+        $api->post(
+            'create',
+            'App\\Http\\Controllers\\TranscationsController@create'
+        );
     });
 });

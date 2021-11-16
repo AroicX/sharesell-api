@@ -21,4 +21,19 @@ class Qoutes extends Model
         'delivery_fee',
         'payload',
     ];
+
+    public function Reseller()
+    {
+        return $this->belongsTo(Reseller::class, 'reseller_id', 'user_id');
+    }
+
+    public function Supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id', 'user_id');
+    }
+
+    public function Product()
+    {
+        return $this->belongsTo(Products::class, 'product_id', 'id');
+    }
 }

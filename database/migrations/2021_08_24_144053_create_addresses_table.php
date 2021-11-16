@@ -17,6 +17,8 @@ class CreateAddressesTable extends Migration
             $table->id();
             $table->string('user_id')->nullable();
             $table->longText('address');
+            $table->string('city');
+            $table->string('state');
             $table->enum('status', ['active', 'dormant'])->default('dormant');
 
             $table->timestamps();

@@ -38,6 +38,8 @@ class AddressController extends Controller
         $address = new Address();
         $address->user_id = $current_user;
         $address->address = $request->address;
+        $address->state = $request->state;
+        $address->city = $request->city;
         $address->save();
 
         if ($address) {
@@ -61,6 +63,8 @@ class AddressController extends Controller
 
         $address->user_id = $current_user;
         $address->address = $request->address;
+        $address->state = $request->state;
+        $address->city = $request->city;
         $address->status = $request->status ? $request->status : null;
         $address->save();
 

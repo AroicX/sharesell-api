@@ -4,6 +4,7 @@ use App\Http\Controllers\AdministratorAuthenticationController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TranscationsController;
 use App\ProductCategories;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +19,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/checkout-form', function () {
-    return view('payments.form');
-});
+Route::get('/checkout-form/{qoute_id}', [
+    TranscationsController::class,
+    'index',
+]);
 Route::get('/payments', function () {
     return view('payments.paystack');
 });
