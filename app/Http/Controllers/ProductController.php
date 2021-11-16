@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\ProductCategories;
-use App\Products;
-use App\Repositories\ProductRepositoryInterface;
 use App\User;
+use App\Products;
+use App\ProductCategories;
+use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
+use App\Repositories\ProductRepositoryInterface;
 
 class ProductController extends Controller
 {
@@ -164,6 +165,25 @@ class ProductController extends Controller
             'Create Product Successfully',
             $products
         );
+    }
+
+    public function uploadImages(Request $request, $product_id = null)
+    {
+        if ($request->isMethod('post')) {
+            $this->validate($request, [
+                'image' => 'image|mimes:jpeg,png,jpg|max:1048|required',
+            ]);
+
+            $image_name = $request->file('image')->getRealPath();
+            //the upload method handles the uploading of the file and can accept attributes to define what should happen to the image
+
+            $uploadedFileUrl = Cloudinary::uploadFile(
+                $request->file('image')->getRealPath()
+            )->getSecurePath();
+            return $uploadedFileUrl;
+        } else {
+            return $this->jsonFormat(500, 'error', 'An error occurred!');
+        }
     }
 
     public function update(Request $request)

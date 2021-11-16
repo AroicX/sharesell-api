@@ -137,6 +137,10 @@ $api->version('v1', function (Router $api) {
                 'add-products',
                 'App\\Http\\Controllers\\ProductController@create'
             );
+            $api->post(
+                'add-product-images/{product_id}',
+                'App\\Http\\Controllers\\ProductController@uploadImages'
+            );
             $api->put(
                 'update-product',
                 'App\\Http\\Controllers\\ProductController@update'
