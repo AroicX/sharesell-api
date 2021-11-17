@@ -39,8 +39,12 @@
     </header>
     @yield('content')
 
+
+
     <footer class="flex justify-center py-6">
-      <p>©Copyright, ShareSell. 2020, <span>Terms & Conditions</span></p>
+      <p>©Copyright, ShareSell. <script>document.write(Date().split(' ')[3])</script>
+        <span>Terms & Conditions</span></p>
     </footer>
+    @yield('scripts')
   </body>
 </html>

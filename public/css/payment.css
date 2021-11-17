@@ -214,3 +214,9 @@ footer span {
     width: 100%;
   }
 }
+
+/* */
+
+.image-viewer {
+  cursor: pointer;
+}

@@ -16,6 +16,8 @@ class TranscationsController extends Controller
             ->with('Reseller', 'Supplier', 'Product')
             ->first();
 
+
+
         return view('payments.form', ['qoute' => $getQoute]);
     }
 
@@ -125,5 +127,4 @@ class TranscationsController extends Controller
         curl_close($curl);
         echo $response;
     }
-    
 }
