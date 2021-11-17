@@ -1,0 +1,216 @@
+.requestButton {
+  background: #fdf0e1;
+  border: 1px solid #fce3c8;
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  color: #a55954;
+  font-size: 1rem;
+  font-family: "Inter";
+}
+
+.sideBar {
+  background-color: #fcf6f4;
+  width: 10%;
+}
+
+.main {
+  width: 90%;
+}
+
+.storeButton {
+  background: #ece6e4;
+  border: 1px solid #a78989;
+  border-radius: 4px;
+  color: #632121;
+  font-family: "Inter";
+}
+
+.productDescription {
+  color: #632121;
+  font-size: 1rem;
+  font-family: "Inter";
+}
+
+.description {
+  font-family: "Inter";
+  font-size: 1rem;
+  color: #632121;
+}
+
+.quantity {
+  color: #632121;
+  font-family: "Inter";
+  font-size: 1rem;
+}
+
+.quantityContainer {
+  border: 1px solid #632121;
+  border-radius: 3px;
+}
+
+.controls {
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 1rem;
+  color: #a55954;
+}
+.value {
+  border-left: 1px solid #632121;
+  border-right: 1px solid #632121;
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 1rem;
+  color: #a55954;
+}
+
+.productPriceTitle {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: #bd8c70;
+  text-align: right;
+}
+
+.price {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 2rem;
+  color: #0d0d0d;
+}
+
+.contact {
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 1rem;
+  color: #632121;
+  border-bottom: 1px solid #f1cfbb;
+}
+
+.form-group {
+  position: relative;
+  background-color: white;
+  border: 1px solid #0d0d0d;
+  box-sizing: border-box;
+  border-radius: 3px;
+  width: 45%;
+}
+
+.form-group label {
+  position: relative;
+  font-size: 0.75rem;
+  line-height: 0.9rem;
+  top: -0.45rem;
+  left: 1em;
+  color: #0d0d0d;
+  font-family: "Inter";
+}
+
+.form-group input {
+  font-family: "Inter";
+  font-size: 1rem;
+  padding-bottom: 0.45rem;
+  outline: none;
+  padding-left: 1em;
+  color: #632121;
+}
+
+.dropDownItem {
+  color: #632121;
+  font-size: 1rem;
+  font-family: "Inter";
+}
+
+.full {
+  width: 100%;
+}
+
+.orderButton {
+  background-color: #a55954;
+  border-radius: 3px;
+  padding: 1rem 1.5rem;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  font-family: "Inter";
+}
+
+footer {
+  border-top: 1px solid #f1cfbb;
+}
+
+footer p {
+  color: #632121;
+  font-size: 1rem;
+  font-family: "Inter";
+}
+
+footer span {
+  text-decoration: underline;
+}
+
+.detail-card {
+  background-color: #fff7f4;
+  border: 1px solid #a78989;
+  border-radius: 4px;
+}
+
+.detail-head {
+  color: #632121;
+  font-weight: 600;
+  font-size: 0.875rem;
+  font-family: "Inter";
+}
+
+.detail-body {
+  color: #632121;
+  font-size: 0.875rem;
+  font-family: "Inter";
+}
+
+.label {
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #bd8c70;
+  font-family: "Inter";
+}
+
+.amount {
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 24px;
+  color: #632121;
+  font-family: "Inter";
+}
+
+.summation {
+  border-bottom: 4px solid #a55954;
+}
+
+.total {
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 2rem;
+  color: #0d0d0d;
+}
+
+.paymentButton {
+  background-color: #219653;
+  border-radius: 3px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .form-group {
+    width: 100%;
+  }
+}
