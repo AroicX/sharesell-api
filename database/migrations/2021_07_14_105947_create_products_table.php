@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->integer('product_price');
             $table->integer('product_weight');
             $table->enum('product_size', ['S', 'M', 'L', 'XL', '2XL']);
-            $table->string('product_quantity');
+            $table->string('product_quantity')->nullable();
             $table->integer('product_number');
             $table->integer('product_retail_price');
             $table->longText('pickup_addreess');
