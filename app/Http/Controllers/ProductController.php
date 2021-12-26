@@ -134,12 +134,12 @@ class ProductController extends Controller
             STRING,
             true
         );
-        // $this->validateParameter(
-        //     'product_images',
-        //     $request->product_images,
-        //     IS_ARRAY,
-        //     true
-        // );
+        $this->validateParameter(
+            'product_images',
+            $request->product_images,
+            IS_ARRAY,
+            true
+        );
         $this->validateParameter('state', $request->state, STRING, true);
         $this->validateParameter('city', $request->city, STRING, true);
 
