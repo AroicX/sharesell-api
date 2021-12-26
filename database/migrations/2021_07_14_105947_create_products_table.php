@@ -18,7 +18,7 @@ class CreateProductsTable extends Migration
             $table->uuid('user_id')->nullable();
             $table->uuid('product_category')->nullable();
             $table->string('product_name');
-            $table->longText('product_images');
+            $table->json('product_images');
             $table->longText('product_description');
             $table->integer('product_price');
             $table->integer('product_weight');

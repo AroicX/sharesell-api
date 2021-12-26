@@ -34,7 +34,7 @@ class ProductRepository extends Controller implements ProductRepositoryInterface
             $product->user_id = $request->user_id;
             $product->product_category = $request->product_category;
             $product->product_name = $request->product_name;
-            $product->product_images = $request->product_images;
+            $product->product_images = json_encode($request->product_images);
             $product->product_description = $request->product_description;
             $product->product_price = $request->product_price;
             $product->product_weight = $request->product_weight;

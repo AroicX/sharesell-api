@@ -72,6 +72,7 @@ class ProductController extends Controller
 
     public function create(Request $request)
     {
+        // header('Access-Control-Allow-Origin: *');
         $this->validateParameter('user_id', $request->user_id, INTEGER, true);
         $this->validateParameter(
             'product_category',
@@ -133,12 +134,12 @@ class ProductController extends Controller
             STRING,
             true
         );
-        $this->validateParameter(
-            'product_images',
-            $request->product_images,
-            STRING,
-            true
-        );
+        // $this->validateParameter(
+        //     'product_images',
+        //     $request->product_images,
+        //     IS_ARRAY,
+        //     true
+        // );
         $this->validateParameter('state', $request->state, STRING, true);
         $this->validateParameter('city', $request->city, STRING, true);
 

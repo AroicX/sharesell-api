@@ -13,6 +13,7 @@ use Illuminate\Routing\Controller as BaseController;
 define('BOOLEAN', '1');
 define('INTEGER', '2');
 define('STRING', '3');
+define('IS_ARRAY', '4');
 //Error Codes
 define('REQUEST_METHOD_NOT_VALID', 100);
 define('REQUEST_CONTENTTYPE_NOT_VALID', 101);
@@ -39,6 +40,14 @@ class Controller extends BaseController
         }
 
         switch ($dataType) {
+            case IS_ARRAY:
+                if (!is_array($value)) {
+                    $this->throwError(
+                        VALIDATE_PARAMETER_DATATYPE,
+                        $fieldName . ' is Not Valid.'
+                    );
+                }
+                break;
             case BOOLEAN:
                 if (!is_bool($value)) {
                     $this->throwError(
