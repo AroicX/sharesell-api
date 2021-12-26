@@ -128,8 +128,14 @@ class ProductController extends Controller
             true
         );
         $this->validateParameter(
-            'pickup_addreess',
-            $request->pickup_addreess,
+            'pickup_address',
+            $request->pickup_address,
+            STRING,
+            true
+        );
+        $this->validateParameter(
+            'product_images',
+            $request->product_images,
             STRING,
             true
         );

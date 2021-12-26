@@ -26,7 +26,7 @@ class CreateProductsTable extends Migration
             $table->string('product_quantity')->nullable();
             $table->integer('product_number');
             $table->integer('product_retail_price');
-            $table->longText('pickup_addreess');
+            $table->longText('pickup_address');
             $table->string('state');
             $table->string('city');
             $table
