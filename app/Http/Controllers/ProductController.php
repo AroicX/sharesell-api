@@ -51,6 +51,16 @@ class ProductController extends Controller
             $products
         );
     }
+    public function find($product_id = null)
+    {
+        $product = Products::where('id', $product_id)
+            ->with('category', 'user')
+            ->first();
+        if (!$product) {
+            return $this->jsonFormat(404, 'error', 'Product Not Found', []);
+        }
+        return $this->jsonFormat(200, 'success', 'Product Found', $product);
+    }
     public function getRecentProducts()
     {
         $products = Products::latest()
@@ -72,7 +82,6 @@ class ProductController extends Controller
 
     public function create(Request $request)
     {
-        // header('Access-Control-Allow-Origin: *');
         $this->validateParameter('user_id', $request->user_id, INTEGER, true);
         $this->validateParameter(
             'product_category',

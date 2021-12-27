@@ -122,6 +122,11 @@ $api->version('v1', function (Router $api) {
                 '/category/{category_id}',
                 'App\\Http\\Controllers\\ProductCategoryController@getCategoryProducts'
             );
+            //get single products
+            $api->get(
+                '/{product_id}',
+                'App\\Http\\Controllers\\ProductController@find'
+            );
             //get recent products
             $api->get(
                 '/recent-products',
