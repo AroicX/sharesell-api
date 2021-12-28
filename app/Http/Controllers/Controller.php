@@ -86,10 +86,17 @@ class Controller extends BaseController
 
     public function throwError($code, $message)
     {
+        header('Access-Control-Allow-Origin: *');
         header('content-type: application/json');
+
         $errorMsg = json_encode(['status' => 'error', 'message' => $message]);
         echo $errorMsg;
         exit();
+
+        // return response()->json(
+        //     ['status' => 'error', 'message' => $message],
+        //     500
+        // );
     }
 
     public function jsonFormat(

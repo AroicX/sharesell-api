@@ -102,6 +102,7 @@ class UserController extends Controller
     public function updateContactPerson(Request $request)
     {
         $user_id = $request->user_id;
+
         $this->validateParameter('user_id', $user_id, INTEGER, true);
         $this->validateParameter(
             'firstname',
@@ -118,6 +119,7 @@ class UserController extends Controller
             INTEGER,
             true
         );
+
         $user = User::where('user_id', $user_id)
             ->with('supplier')
             ->first();
