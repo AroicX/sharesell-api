@@ -24,6 +24,7 @@ class CreateQoutesTable extends Migration
             $table->string('destination_state');
             $table->string('destination_city');
             $table->integer('delivery_fee');
+            $table->longText('rate_key');
             $table->longText('payload')->nullable();
             $table->timestamps();
         });

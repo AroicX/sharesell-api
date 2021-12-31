@@ -87,7 +87,7 @@ class BaseController extends Controller
         } else {
             return $this->jsonFormat(
                 404,
-                'erro',
+                'error',
                 'One time password is invaild',
                 ['otp' => $one_time_password]
             );

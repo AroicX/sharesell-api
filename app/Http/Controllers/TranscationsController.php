@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Products;
 use App\Qoutes;
+use App\Supplier;
 use App\Transcations;
 use Illuminate\Http\Request;
 
@@ -15,8 +17,6 @@ class TranscationsController extends Controller
         $getQoute = Qoutes::where('qoute_id', $qoute_id)
             ->with('Reseller', 'Supplier', 'Product')
             ->first();
-
-
 
         return view('payments.form', ['qoute' => $getQoute]);
     }
@@ -43,6 +43,69 @@ class TranscationsController extends Controller
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+    public function getQuote(Request $request)
+    {
+        $product = Products::where('id', $request->product_id)
+            ->with('user', 'category')
+            ->first();
+
+        $data = [
+            'origin_country' => 'NIGERIA',
+            'origin_state' => $product->state,
+            'origin_city' => $product->city,
+            'destination_country' => 'NIGERIA',
+            'destination_state' => $request->state,
+            'destination_city' => $request->city,
+            'weight' => $product->product_weight,
+        ];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://sandbox.staging.sendbox.co/shipping/shipment_delivery_quote',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($data),
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+                'Authorization: ' . env('SENDBOX_KEY'),
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+
+        $qoute_data = json_decode($response);
+        $qouteID = $this->random_string(25);
+
+        $qoute = new Qoutes();
+        $qoute->qoute_id = $qouteID;
+        $qoute->reseller_id = auth()->user()->user_id;
+        $qoute->supplier_id = $product->user->user_id;
+        $qoute->product_id = $request->product_id;
+        $qoute->origin_state = $product->state;
+        $qoute->origin_city = $product->city;
+        $qoute->destination_state = $request->state;
+        $qoute->destination_city = $request->city;
+        $qoute->delivery_fee = $qoute_data->amount;
+        $qoute->rate_key = $qoute_data->rate_key;
+
+        $qoute->save();
+
+        return $this->jsonFormat(200, 'success', 'Link Generated', [
+            'url' => env('APP_URL') . '/checkout-form/' . $qouteID,
+            $qoute,
+        ]);
+
+        // return $this->jsonFormat(200, 'success', 'Quote Created', $qoute_data);
     }
 
     public function createShipping($transactions)

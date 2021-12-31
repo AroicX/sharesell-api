@@ -21,6 +21,7 @@ class ShippingController extends Controller
             $qoute->destination_state = $request->destination_state;
             $qoute->destination_city = $request->destination_city;
             $qoute->delivery_fee = $request->delivery_fee;
+            $qoute->rate_key = $request->rate_key;
             $qoute->payload = $request->payload;
             $qoute->save();
 
