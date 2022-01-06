@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Nexmo\Laravel\Facade\Nexmo;
+// use Nexmo\Laravel\Facade\Nexmo;
 
 class BaseController extends Controller
 {
