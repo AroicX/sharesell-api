@@ -29,6 +29,6 @@ class RegistrationMailer extends Mailable
     public function build()
     {
 
-        return $this->from('hr@artisan-atlas.ng')->subject('Account Activation')->view('mail.auth.activation');
+        return $this->from('hr@sharesell.africa')->subject('Account Activation')->view('mail.auth.activation');
     }
 }

@@ -42,6 +42,15 @@ class CreateUsersTable extends Migration
                 ])
                 ->default('check-phone');
             $table
+                ->enum('profile-update', [
+                    'onboarded',
+                    'business',
+                    'contact',
+                    'bvn',
+                    'nok',
+                ])
+                ->default('onboarded');
+            $table
                 ->enum('status', ['active', 'dormant', 'pending', 'blocked'])
                 ->default('pending');
             $table

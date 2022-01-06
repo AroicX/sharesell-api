@@ -8,11 +8,12 @@ use App\Supplier;
 use Illuminate\Http\Request;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Exception;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Nexmo\Laravel\Facade\Nexmo;
 
 class BaseController extends Controller
 {
@@ -33,6 +34,16 @@ class BaseController extends Controller
             $new_user->phone = $phone;
             $new_user->primary_role = $role;
             $new_user->one_time_password = $random;
+
+            // try {
+            //     Nexmo::message()->send([
+            //         'to' => $phone,
+            //         'from' => 'Sharesell Africa',
+            //         'text' => 'Your OTP is' . $random . ' expires in 5mins.',
+            //     ]);
+            // } catch (Exception $e) {
+            //     return response()->json([$e->getMessage()]);
+            // }
 
             switch ($role) {
                 case '3':

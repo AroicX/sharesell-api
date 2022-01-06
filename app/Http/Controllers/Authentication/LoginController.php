@@ -35,13 +35,10 @@ class LoginController extends Controller
         try {
             $validate = User::where('email', $request->email)->first();
             if (!$validate) {
-                return response()->json(
-                    [
-                        'status' => 'info',
-                        'message' => 'Email or Password is incorrect',
-                    ],
-                    102
-                );
+                return response()->json([
+                    'status' => 'info',
+                    'message' => 'Email or Password is incorrect',
+                ]);
             } elseif (!$validate->email_verified) {
                 return [
                     'status' => 'info',
@@ -97,7 +94,7 @@ class LoginController extends Controller
         }
 
         return response()->json([
-            'status' => '200',
+            'status' => 'success',
             'user' => $current_user,
             'message' => 'Authentication Successfully',
             'token' => $token,

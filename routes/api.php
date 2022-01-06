@@ -161,10 +161,17 @@ $api->version('v1', function (Router $api) {
                 'App\\Http\\Controllers\\ShippingController@quote'
             );
         });
-        $api->post(
-            '/transaction/get-quote',
-            'App\\Http\\Controllers\\TranscationsController@getQuote'
-        );
+
+        $api->group(['prefix' => 'transaction'], function (Router $api) {
+            $api->post(
+                'get-quote',
+                'App\\Http\\Controllers\\TranscationsController@getQuote'
+            );
+            $api->post(
+                'generate-payment-link',
+                'App\\Http\\Controllers\\TranscationsController@generatePaymentLink'
+            );
+        });
     });
 
     $api->group(['prefix' => 'transaction'], function (Router $api) {

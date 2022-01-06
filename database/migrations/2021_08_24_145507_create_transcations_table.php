@@ -16,6 +16,7 @@ class CreateTranscationsTable extends Migration
         Schema::create('transcations', function (Blueprint $table) {
             $table->id();
             $table->string('user_id')->nullable();
+            $table->string('qoute_id')->nullable();
             $table->string('reseller_id')->nullable();
             $table->string('supplier_id')->nullable();
             $table->string('product_id')->nullable();

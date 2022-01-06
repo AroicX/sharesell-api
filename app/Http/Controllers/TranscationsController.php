@@ -50,6 +50,7 @@ class TranscationsController extends Controller
         $product = Products::where('id', $request->product_id)
             ->with('user', 'category')
             ->first();
+            
 
         $data = [
             'origin_country' => 'NIGERIA',
@@ -84,28 +85,44 @@ class TranscationsController extends Controller
         curl_close($curl);
 
         $qoute_data = json_decode($response);
-        $qouteID = $this->random_string(25);
 
-        $qoute = new Qoutes();
-        $qoute->qoute_id = $qouteID;
-        $qoute->reseller_id = auth()->user()->user_id;
-        $qoute->supplier_id = $product->user->user_id;
-        $qoute->product_id = $request->product_id;
-        $qoute->origin_state = $product->state;
-        $qoute->origin_city = $product->city;
-        $qoute->destination_state = $request->state;
-        $qoute->destination_city = $request->city;
-        $qoute->delivery_fee = $qoute_data->amount;
-        $qoute->rate_key = $qoute_data->rate_key;
+        return $this->jsonFormat(200, 'success', 'Quote Generated',  $qoute_data);
+    }
 
-        $qoute->save();
+    public function generatePaymentLink(Request $request)
+    {
+        $product = Products::where('id', $request->product_id)
+            ->with('user', 'category')
+            ->first();
 
-        return $this->jsonFormat(200, 'success', 'Link Generated', [
-            'url' => env('APP_URL') . '/checkout-form/' . $qouteID,
-            $qoute,
-        ]);
+            try {
+                $qouteID = $this->random_string(25);
 
-        // return $this->jsonFormat(200, 'success', 'Quote Created', $qoute_data);
+                $qoute = new Qoutes();
+                $qoute->qoute_id = $qouteID;
+                $qoute->reseller_id = auth()->user()->user_id;
+                $qoute->supplier_id = $product->user->user_id;
+                $qoute->product_id = $request->product_id;
+                $qoute->origin_state = $product->state;
+                $qoute->origin_city = $product->city;
+                $qoute->destination_state = $request->state;
+                $qoute->destination_city = $request->city;
+                $qoute->delivery_fee = $request?->delivery_fee;
+                $qoute->rate_key = $request?->rate_key;
+                $qoute->reseller_price = $request?->reseller_price;
+                $qoute->total_cost = $request?->total_cost;
+        
+                $qoute->save();
+        
+                return $this->jsonFormat(200, 'success', 'Link Generated', [
+                    'url' => env('FRONTEND_URL') . '/checkout/' . $qouteID,
+                    $qoute,
+                ]);
+            } catch (\Throwable $th) {
+                return $this->jsonFormat(500, 'success', 'Server error', $th);
+            }
+
+      
     }
 
     public function createShipping($transactions)
