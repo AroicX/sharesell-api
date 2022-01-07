@@ -36,14 +36,14 @@ class TransactionsController extends Controller
             $transactions->status = 'completed';
             // $transactions->save();
 
-            return $this->createShipping($transactions);
+            // return $this->createShipping($transactions);
 
-            // return $this->jsonFormat(
-            //     200,
-            //     'success',
-            //     'Payment Successful',
-            //     $transactions
-            // );
+            return $this->jsonFormat(
+                200,
+                'success',
+                'Payment Successful',
+                $transactions
+            );
         } catch (\Throwable $th) {
             throw $th;
         }
