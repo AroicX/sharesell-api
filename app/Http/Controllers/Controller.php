@@ -105,12 +105,15 @@ class Controller extends BaseController
         $message = null,
         $data = null
     ) {
-        return \response()->json([
-            'status_code' => $status_code,
-            'status' => $status,
-            'message' => $message ? $message : 'Data loaded',
-            'payload' => $data,
-        ]);
+        return \response()->json(
+            [
+                'status_code' => $status_code,
+                'status' => $status,
+                'message' => $message ? $message : 'Data loaded',
+                'payload' => $data,
+            ],
+            $status_code
+        );
     }
 
     public function getLastUserId()

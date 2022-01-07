@@ -164,12 +164,8 @@ $api->version('v1', function (Router $api) {
 
         $api->group(['prefix' => 'transaction'], function (Router $api) {
             $api->post(
-                'get-quote',
-                'App\\Http\\Controllers\\TranscationsController@getQuote'
-            );
-            $api->post(
                 'generate-payment-link',
-                'App\\Http\\Controllers\\TranscationsController@generatePaymentLink'
+                'App\\Http\\Controllers\\TransactionsController@generatePaymentLink'
             );
         });
     });
@@ -177,7 +173,19 @@ $api->version('v1', function (Router $api) {
     $api->group(['prefix' => 'transaction'], function (Router $api) {
         $api->post(
             'create',
-            'App\\Http\\Controllers\\TranscationsController@create'
+            'App\\Http\\Controllers\\TransactionsController@create'
         );
     });
+
+    $api->post(
+        'transaction/get-quote',
+        'App\\Http\\Controllers\\TransactionsController@getQuote'
+    );
+
+    $api->get(
+        'checkout/{quote_id}',
+        'App\\Http\\Controllers\\TransactionsController@getQuoteById'
+    );
+
+    //
 });

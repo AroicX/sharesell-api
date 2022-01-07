@@ -35,15 +35,19 @@ class LoginController extends Controller
         try {
             $validate = User::where('email', $request->email)->first();
             if (!$validate) {
-                return response()->json([
-                    'status' => 'info',
-                    'message' => 'Email or Password is incorrect',
-                ]);
+                return $this->jsonFormat(
+                    400,
+                    'info',
+                    'Email or Password is incorrect',
+                    null
+                );
             } elseif (!$validate->email_verified) {
-                return [
-                    'status' => 'info',
-                    'message' => 'Please your verify email account.',
-                ];
+                return $this->jsonFormat(
+                    500,
+                    'info',
+                    'Please your verify email account.',
+                    null
+                );
             }
 
             // $token = Auth::attempt($credentials);

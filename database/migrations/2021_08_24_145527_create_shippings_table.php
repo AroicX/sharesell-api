@@ -16,7 +16,7 @@ class CreateShippingsTable extends Migration
         Schema::create('shippings', function (Blueprint $table) {
             $table->id();
             $table->string('shipping_id')->nullable();
-            $table->string('transcation_id');
+            $table->string('transaction_id');
             $table->string('reseller_id')->nullable();
             $table->string('supplier_id')->nullable();
             $table->string('product_id')->nullable();
