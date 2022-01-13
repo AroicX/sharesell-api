@@ -48,14 +48,12 @@ class RegistrationController extends Controller
             $profile->gender = $request->gender;
             $profile->save();
 
-
             if(!$user->save()) {
                 throw new HttpException(500);
             }
             if(!$profile->save()) {
                 throw new HttpException(500);
             }
-
 
             Mail::to($email)->send(new RegistrationMailer($user));
 
@@ -67,7 +65,7 @@ class RegistrationController extends Controller
             ], 201);
 
 
-
+            // dd($request);
 
         } catch (\Throwable $th) {
            return $th->getMessage();

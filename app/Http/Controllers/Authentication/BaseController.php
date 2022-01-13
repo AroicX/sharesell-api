@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
+use App\Events\UserRegistrationEvent;
 use App\Reseller;
 use App\Supplier;
 use Illuminate\Http\Request;
@@ -158,9 +159,9 @@ class BaseController extends Controller
                     ->with('supplier')
                     ->first();
             }
-            // 2 means suppliers
+            // 2 means resellers
             if (intval($role_check->primary_role) === intval(2)) {
-                //save supplier
+                //save resellers
                 $supplier = Reseller::where('user_id', $user_id)->first();
                 $supplier->business_name = $business_name;
                 $supplier->business_registered = $isRegistered;
@@ -173,7 +174,7 @@ class BaseController extends Controller
             }
 
             $credentials = $request->only(['email', 'password']);
-
+            UserRegistrationEvent::dispatch($_user);
             try {
                 $token = auth()
                     ->guard('api')
