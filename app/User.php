@@ -69,6 +69,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Role::class, 'id', 'primary_role');
     }
 
+    public function favourites()
+    {
+        return $this->hasMany(Favourite::class);
+    }
+
     // public function role()
     // {
     //    return $this->hasOne(Role::class,'role_id','primary_role' );

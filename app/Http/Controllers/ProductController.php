@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Products;
 use App\ProductCategories;
+use App\Favourite;
 use Cloudinary\Cloudinary;
 use Illuminate\Http\Request;
 use App\Repositories\ProductRepositoryInterface;
@@ -248,5 +249,45 @@ class ProductController extends Controller
             'Product has been deleted.',
             null
         );
+    }
+
+    public function getAllLikedProduct(){
+        $current_user = auth()
+            ->guard('api')
+            ->user();
+        $allLikedProduct = Favourite::where('user_id', $current_user->user_id)->get();
+        return $this->jsonFormat(200, "success", "All Favourite Products", $allLikedProduct);
+    }
+
+    public function likeProduct(Request $request, $product_id){
+        $current_user = auth()
+            ->guard('api')
+            ->user();
+        $product = Products::where('id', $product_id)->first();
+        if(!$product){
+            return $this->jsonFormat(401, "error", "You cannot like this product", null);
+        }
+        if($current_user->primary_role != 2){
+            return $this->jsonFormat(401, "error", "You cannot like this product", null);
+        }else {
+            $liked = Favourite::where([["user_id", "=", $current_user->user_id], ["product_id", "=", $product_id]])->first();
+            if($liked){
+                $liked->delete();
+                $all_liked = Favourite::where("user_id", $current_user->user_id)->get();
+                return $this->jsonFormat(200, "success", "Product Unliked Successfully", $all_liked);
+            }else {
+                $favourite = new Favourite();
+                $favourite->user_id = $current_user->user_id;
+                $favourite->product_id = $product_id;
+
+                $favourite->save();
+                if($favourite){
+                    $all_liked = Favourite::where("user_id", $current_user->user_id)->get();
+                    return $this->jsonFormat(201, "success", "Product Liked Successfully", $all_liked);
+                }else {
+                    return $this->jsonFormat(500, "error", "Inernal Server error", null);
+                }
+            }
+        }
     }
 }
