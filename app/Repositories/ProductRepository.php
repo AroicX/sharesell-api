@@ -63,7 +63,7 @@ class ProductRepository extends Controller implements ProductRepositoryInterface
             $data = [
                 'product_category' => $request->product_category,
                 'product_name' => $request->product_name,
-                'product_images' => 'none',
+                'product_images' => $request->product_images,
                 'product_description' => $request->product_description,
                 'product_price' => $request->product_price,
                 'product_weight' => $request->product_weight,
@@ -71,7 +71,7 @@ class ProductRepository extends Controller implements ProductRepositoryInterface
                 'product_quantity' => $request->product_quantity,
                 'product_number' => $request->product_number,
                 'product_retail_price' => $request->product_retail_price,
-                'pickup_addreess' => $request->pickup_addreess,
+                'pickup_address' => $request->pickup_addreess,
                 'state' => $request->state,
                 'city' => $request->city,
             ];
