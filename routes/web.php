@@ -30,6 +30,11 @@ Route::get('/', [AdministratorAuthenticationController::class, 'login'])->name(
     'login'
 );
 
+// Previewing Email Format
+Route::get('/email', function () {
+    return view('mail.auth.welcome');
+});
+
 Route::group(['prefix' => 'administrator'], function () {
     Route::post('/login', [
         AdministratorAuthenticationController::class,
