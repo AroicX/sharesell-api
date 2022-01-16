@@ -89,6 +89,10 @@ $api->version('v1', function (Router $api) {
                     'address/delete/{address_id}',
                     'App\\Http\\Controllers\\AddressController@delete'
                 );
+                // $api->post(
+                //     'like',
+                //     'App\\Http\\Controllers\\UserController@likeProduct'
+                // );
             }
         );
         $api->group(
@@ -116,6 +120,11 @@ $api->version('v1', function (Router $api) {
             $api->get(
                 '/categories',
                 'App\\Http\\Controllers\\ProductCategoryController@api'
+            );
+            //Get all Product Liked by User
+            $api->get(
+                '/get-like',
+                'App\\Http\\Controllers\\ProductController@getAllLikedProduct'
             );
             //get products in category
             $api->get(
@@ -153,6 +162,12 @@ $api->version('v1', function (Router $api) {
             $api->delete(
                 'delete-product/{category_id}',
                 'App\\Http\\Controllers\\ProductController@delete'
+            );
+
+            // Like or Unlike a product
+            $api->post(
+                '/like/{product_id}',
+                'App\\Http\\Controllers\\ProductController@likeProduct'
             );
         });
         $api->group(['prefix' => 'shipping'], function (Router $api) {
