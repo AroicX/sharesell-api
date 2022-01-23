@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 // use Nexmo\Laravel\Facade\Nexmo;
+use Twilio\Rest\Client;
 
 class BaseController extends Controller
 {
@@ -45,6 +46,21 @@ class BaseController extends Controller
             // } catch (Exception $e) {
             //     return response()->json([$e->getMessage()]);
             // }
+            $receiverNumber = '+234'. substr($phone, strlen($phone) - 10);
+            $message = 'Your OTP is ' . $random . ' expires in 5mins.';
+            try {
+                $account_sid = getenv("TWILIO_SID");
+                $auth_token = getenv("TWILIO_TOKEN");
+                $twilio_number = getenv("TWILIO_FROM");
+    
+                $client = new Client($account_sid, $auth_token);
+                $client->messages->create($receiverNumber, [
+                    'from' => $twilio_number, 
+                    'body' => $message]);
+
+            } catch (Exception $e) {
+                return response()->json([$e->getMessage()]);
+            }
 
             switch ($role) {
                 case '3':
