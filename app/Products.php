@@ -39,4 +39,8 @@ class Products extends Model
             'product_category'
         );
     }
+    public function favourites()
+    {
+        return $this->hasMany(Favourite::class);
+    }
 }
