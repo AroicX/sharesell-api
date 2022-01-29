@@ -35,7 +35,7 @@ class WelcomeUserMail extends Mailable
      */
     public function build()
     {
-        return $this->from('ceo@sharesell.com')->subject('Welcome to Sharesell')->view('mail.auth.welcome')->with([
+        return $this->from("teebams49@gmail.com")->subject('Welcome to Sharesell')->view('mail.auth.welcome')->with([
             "business_name" => $this->business_name
         ]);
     }

@@ -65,7 +65,7 @@
                         <table width="100%" style="border-spacing: 0;">
                             <tr>
                                 <td style="padding-top: 10px;text-align: center;">
-                                    <img src="./images/sharesell-logo.svg" height="110" alt="Sharesell  Logo" />
+                                    <img height="110" alt="Sharesell  Logo" src="{{ $message->embed(public_path() . '/images/sharesell-logo.svg') }}" />
                                 </td>
                             </tr>
                         </table>
