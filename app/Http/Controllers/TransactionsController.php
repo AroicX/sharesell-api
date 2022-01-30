@@ -6,6 +6,7 @@ use App\Products;
 use App\Qoutes;
 use App\Supplier;
 use App\Transactions;
+use App\Jobs\CreateTransaction;
 use Illuminate\Http\Request;
 
 class TransactionsController extends Controller
@@ -34,9 +35,10 @@ class TransactionsController extends Controller
             $transactions->payment_payload = json_encode($request->payload);
             $transactions->customer_details = json_encode($request->customer_details);
             $transactions->status = 'completed';
-            // $transactions->save();
+            $transactions->save();
 
             // return $this->createShipping($transactions);
+            CreateTransaction::dispatch($transactions);
 
             return $this->jsonFormat(
                 200,
