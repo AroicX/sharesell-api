@@ -17,6 +17,7 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
+        "mujhtech/sendchamp": "^1.0",
         "nexmo/laravel": "^2.4",
         "twilio/sdk": "^6.33",
         "tymon/jwt-auth": "1.0.*"

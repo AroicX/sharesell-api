@@ -46,17 +46,18 @@ class BaseController extends Controller
             // } catch (Exception $e) {
             //     return response()->json([$e->getMessage()]);
             // }
-            $receiverNumber = '+234'. substr($phone, strlen($phone) - 10);
+            $receiverNumber = ['234'. substr($phone, strlen($phone) - 10)];
             $message = 'Your OTP is ' . $random . ' expires in 5mins.';
             try {
-                $account_sid = getenv("TWILIO_SID");
-                $auth_token = getenv("TWILIO_TOKEN");
-                $twilio_number = getenv("TWILIO_FROM");
+                // $account_sid = getenv("TWILIO_SID");
+                // $auth_token = getenv("TWILIO_TOKEN");
+                // $twilio_number = getenv("TWILIO_FROM");
     
-                $client = new Client($account_sid, $auth_token);
-                $client->messages->create($receiverNumber, [
-                    'from' => $twilio_number, 
-                    'body' => $message]);
+                // $client = new Client($account_sid, $auth_token);
+                // $client->messages->create($receiverNumber, [
+                //     'from' => $twilio_number, 
+                //     'body' => $message]);
+                sendchamp()->sendSms($message, "Sharesell", $receiverNumber, '');
 
             } catch (Exception $e) {
                 return response()->json([$e->getMessage()]);
