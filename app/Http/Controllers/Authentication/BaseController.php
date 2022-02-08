@@ -14,6 +14,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Http;
 // use Nexmo\Laravel\Facade\Nexmo;
 use Twilio\Rest\Client;
 
@@ -103,16 +104,22 @@ class BaseController extends Controller
         $one_time_password = $request->otp;
         $user = User::where('one_time_password', $one_time_password)->first();
         if ($user) {
-            $user->email_verified = true;
-            $user->email_verified_at = Carbon::now();
-            $user->registration_steps = 'verify-otp';
-            $user->save();
-            return $this->jsonFormat(
-                200,
-                'success',
-                'One time password verified! ',
-                $user
-            );
+            $last_updated = Carbon::parse($user->updated_at)->addMinutes(5);
+
+            if(Carbon::now()->lt($last_updated)){
+                $user->email_verified = true;
+                $user->email_verified_at = Carbon::now();
+                $user->registration_steps = 'verify-otp';
+                $user->save();
+                return $this->jsonFormat(
+                    200,
+                    'success',
+                    'One time password verified! ',
+                    $user
+                );
+            }else {
+                return $this->jsonFormat(403, "error", "One time Password has Expired, click the resend OTP link");
+            }
         } else {
             return $this->jsonFormat(
                 404,
@@ -120,6 +127,26 @@ class BaseController extends Controller
                 'One time password is invaild',
                 ['otp' => $one_time_password]
             );
+        }
+    }
+
+    public function resend_one_time_password(Request $request){
+        $phone = $request->phone;
+        $user = User::where('phone', $phone);
+        if($user) {
+            $random = sprintf('%06d', mt_rand(1, 999999));
+            $user->update(['one_time_password' => $random]);
+            $receiverNumber = ['234'. substr($phone, strlen($phone) - 10)];
+            $message = 'Your OTP is ' . $random . ' expires in 5mins.';
+            try {
+                sendchamp()->sendSms($message, "Sharesell", $receiverNumber, '');
+
+            } catch (Exception $e) {
+                return response()->json([$e->getMessage()]);
+            }
+            return $this->jsonFormat(200, "success", "One Time Password has been sent to your Phone");
+        }else {
+            return $this->jsonFormat(404, 'error', "Invalid Phone Number");
         }
     }
 
@@ -191,7 +218,17 @@ class BaseController extends Controller
             }
 
             $credentials = $request->only(['email', 'password']);
-            UserRegistrationEvent::dispatch($_user);
+            // UserRegistrationEvent::dispatch($_user);
+            $authBearer = 'Bearer '. getenv("SENDCHAMP_PUBLIC_KEY");
+            $response = Http::post('https://api.sendchamp.com/api/v1/whatsapp/message/send', [
+                'body' => '{"sender":"2347067959173","recipient":"2348146810457","template_code":"ef874fe0-ef77-4f06-9f33-1344d92af734,"type":"template","custom_data":{"Body":{"1":"Bamidele","2":"Oluwatobi","3":"noon","4":"12345"}}}',
+                'headers' => [
+                  'Accept' => 'application/json',
+                  'Authorization' => "Bearer sendchamp_pk_live_$2y$10\$x2rNQ1mtvgz0i9fkKE05l.47d.iofeoA8MAWokbPebUswHwCd9kMG",
+                  'Content-Type' => 'application/json',
+                ],
+              ]);
+              return $response;
             try {
                 $token = auth()
                     ->guard('api')

@@ -36,6 +36,10 @@ $api->version('v1', function (Router $api) {
             'App\\Http\\Controllers\\Authentication\\BaseController@one_time_password'
         );
         $api->post(
+            'resend_one_time_password',
+            'App\\Http\\Controllers\\Authentication\\BaseController@resend_one_time_password'
+        );
+        $api->post(
             'register',
             'App\\Http\\Controllers\\Authentication\\RegistrationController@register'
         );
