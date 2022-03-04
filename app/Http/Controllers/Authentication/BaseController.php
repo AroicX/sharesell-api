@@ -166,8 +166,12 @@ class BaseController extends Controller
         $password = $request->password;
         $re_password = $request->re_password;
         $this->validateParameter('isRegistered', $isRegistered, BOOLEAN, false);
-        $this->validateParameter('business_name', $business_name, STRING, true);
-        $this->validateParameter('bvn_number', $bvn_number, STRING, true);
+        if (intval($role_check->primary_role) === intval(3)) {
+            $this->validateParameter('business_name', $business_name, STRING, true);
+            $this->validateParameter('bvn_number', $bvn_number, STRING, false);
+        }else {
+            $this->validateParameter('business_name', $business_name, STRING, false);
+        }
         $this->validateParameter('email', $email, STRING, true);
         $this->validateParameter('password', $password, STRING, true);
         $this->validateParameter('re_password', $re_password, STRING, true);
@@ -219,16 +223,16 @@ class BaseController extends Controller
 
             $credentials = $request->only(['email', 'password']);
             // UserRegistrationEvent::dispatch($_user);
-            $authBearer = 'Bearer '. getenv("SENDCHAMP_PUBLIC_KEY");
-            $response = Http::post('https://api.sendchamp.com/api/v1/whatsapp/message/send', [
-                'body' => '{"sender":"2347067959173","recipient":"2348146810457","template_code":"ef874fe0-ef77-4f06-9f33-1344d92af734,"type":"template","custom_data":{"Body":{"1":"Bamidele","2":"Oluwatobi","3":"noon","4":"12345"}}}',
-                'headers' => [
-                  'Accept' => 'application/json',
-                  'Authorization' => "Bearer sendchamp_pk_live_$2y$10\$x2rNQ1mtvgz0i9fkKE05l.47d.iofeoA8MAWokbPebUswHwCd9kMG",
-                  'Content-Type' => 'application/json',
-                ],
-              ]);
-              return $response;
+            // $authBearer = 'Bearer '. getenv("SENDCHAMP_PUBLIC_KEY");
+            // $response = Http::post('https://api.sendchamp.com/api/v1/whatsapp/message/send', [
+            //     'body' => '{"sender":"2347067959173","recipient":"2348146810457","template_code":"ef874fe0-ef77-4f06-9f33-1344d92af734,"type":"template","custom_data":{"Body":{"1":"Bamidele","2":"Oluwatobi","3":"noon","4":"12345"}}}',
+            //     'headers' => [
+            //       'Accept' => 'application/json',
+            //       'Authorization' => "Bearer sendchamp_pk_live_$2y$10\$x2rNQ1mtvgz0i9fkKE05l.47d.iofeoA8MAWokbPebUswHwCd9kMG",
+            //       'Content-Type' => 'application/json',
+            //     ],
+            //   ]);
+            //   return $response;
             try {
                 $token = auth()
                     ->guard('api')
@@ -239,12 +243,12 @@ class BaseController extends Controller
             } catch (JWTException $e) {
                 throw new HttpException(500);
             }
-            return $this->jsonFormat(
-                200,
-                'success',
-                'Account created successfully',
-                ['user' => $_user, 'token' => $token]
-            );
+            return response()->json([
+                'status' => 'success',
+                'user' => $_user,
+                'message' => 'Account Created Successfully',
+                'token' => $token,
+            ]);
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
