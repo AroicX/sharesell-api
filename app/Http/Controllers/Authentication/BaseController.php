@@ -93,7 +93,7 @@ class BaseController extends Controller
             return $this->jsonFormat(
                 200,
                 'success',
-                'No user found',
+                'OTP has been sent',
                 $new_user
             );
         }
