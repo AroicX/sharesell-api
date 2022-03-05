@@ -30,6 +30,18 @@ class BaseController extends Controller
         $random = sprintf('%06d', mt_rand(1, 999999));
 
         if ($user) {
+            if(intval($role) === intval(3)){
+                $is_reseller = Reseller::where('user_id', $user->user_id);
+                if($is_reseller){
+                    return $this->jsonFormat(422, 'error', 'This Number has been registered on this Platform for a different Account');
+                }
+            }
+            if(intval($role) === intval(2)){
+                $is_reseller = Supplier::where('user_id', $user->user_id);
+                if($is_reseller){
+                    return $this->jsonFormat(422, 'error', 'This Number has been registered on this Platform for a different Account');
+                }
+            }
             return $this->jsonFormat(200, 'success', 'User found', $user);
         } else {
             $new_user = new User();
