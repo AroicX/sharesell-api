@@ -259,6 +259,14 @@ class ProductController extends Controller
         return $this->jsonFormat(200, "success", "All Favourite Products", $allLikedProduct);
     }
 
+    public function getMyProduct () {
+        $current_user = auth()
+            ->guard('api')
+            ->user();
+        $myProducts = Products::where('user_id', $current_user->user_id)->get();
+        return $this->jsonFormat(200, "success", "My Products", $myProducts);
+    }
+
     public function likeProduct(Request $request, $product_id){
         $current_user = auth()
             ->guard('api')
