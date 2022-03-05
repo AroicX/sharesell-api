@@ -168,7 +168,9 @@ class BaseController extends Controller
         $this->validateParameter('isRegistered', $isRegistered, BOOLEAN, false);
         if (intval($role_check->primary_role) === intval(3)) {
             $this->validateParameter('business_name', $business_name, STRING, true);
-            $this->validateParameter('bvn_number', $bvn_number, STRING, false);
+            if($bvn_number){
+                 $this->validateParameter('bvn_number', $bvn_number, STRING, false);
+            }
         }else {
             $this->validateParameter('business_name', $business_name, STRING, false);
         }
