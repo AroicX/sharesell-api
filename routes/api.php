@@ -66,6 +66,10 @@ $api->version('v1', function (Router $api) {
             ['prefix' => 'user', 'middleware' => 'user.roles'],
             function (Router $api) {
                 $api->get(
+                    'myProduct',
+                    'App\\Http\\Controllers\\ProductController@getMyProduct'
+                );
+                $api->get(
                     'profile',
                     'App\\Http\\Controllers\\UserController@getProfile'
                 );
