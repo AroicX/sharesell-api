@@ -32,5 +32,10 @@ return [
     'nexmo' => [
         'sms_from' => '15556666666',
     ],
+    'africastalking' => [
+        'username'      => env('AT_USERNAME'),
+        'key'           => env('AT_KEY'),
+        'from'          => env('AT_FROM'),
+    ]
 
 ];
