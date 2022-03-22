@@ -52,6 +52,10 @@ $api->version('v1', function (Router $api) {
             'refresh',
             'App\\Http\Controllers\\Authentication\\RefreshController@refresh'
         );
+        $api->post(
+            'forget-password',
+            'App\\Http\\Controllers\\Authentication\\ForgotPasswordController@forget_password'
+        );
     });
 
     $api->group(['middleware' => 'protected.auth'], function (Router $api) {
