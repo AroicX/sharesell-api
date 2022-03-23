@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Hash;
 
 class ForgotPasswordController extends Controller
 {
@@ -104,7 +105,7 @@ class ForgotPasswordController extends Controller
             $date_created = Carbon::parse($passwordReset->created_at)->addMinutes(5);
             if(Carbon::now()->lt($date_created)){
                 $user = User::where('phone', $passwordReset->email)->update([
-                    "password" => $password
+                    "password" => Hash::make($password)
                 ]);
                 DB::table('password_resets')->where('token', $otp)->delete();
                 return $this->jsonFormat(200, 'success', 'Password Successfully Updated');
