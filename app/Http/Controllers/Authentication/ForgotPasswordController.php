@@ -59,7 +59,7 @@ class ForgotPasswordController extends Controller
             }
             $random = sprintf('%06d', mt_rand(1, 999999));
             $receiverNumber = '+234'. substr($phone, strlen($phone) - 10);
-            $message = 'Your OTP for your password reset is ' . $random . ' expires in 10mins.';
+            $message = 'Your OTP for your password reset is ' . $random . ' expires in 5mins.';
             DB::table('password_resets')->insert([
                 "email" => $phone,
                 "token" => $random,
@@ -80,6 +80,38 @@ class ForgotPasswordController extends Controller
                 return response()->json([$e->getMessage()]);
             }
             return $this->jsonFormat(200, 'success', "OTP would be sent to the phone number if it's exist");
+        }
+        return $this->jsonFormat(500, 'error', "An Error Occured");
+    }
+    public function reset_password(Request $request){
+        $otp = $request->otp;
+        $password = $request->password;
+        $re_password = $request->re_password;
+
+        $this->validateParameter('otp', $otp, INTEGER, true);
+        $this->validateParameter('password', $password, STRING, true);
+        $this->validateParameter('re_password', $re_password, STRING, true);
+
+        if($password !== $re_password){
+            return $this->jsonFormat(422, 'error', "Password and Confirm Password must match");
+        }
+
+        $passwordReset = DB::table('password_resets')->where('token', $otp)->first();
+
+        if(!$passwordReset){
+            return $this->jsonFormat(422, 'error', "Invalid OTP");
+        }else {
+            $date_created = Carbon::parse($passwordReset->created_at)->addMinutes(5);
+            if(Carbon::now()->lt($date_created)){
+                $user = User::where('phone', $passwordReset->email)->update([
+                    "password" => $password
+                ]);
+                DB::table('password_resets')->where('token', $otp)->delete();
+                return $this->jsonFormat(200, 'success', 'Password Successfully Updated');
+            }else {
+                DB::table('password_resets')->where('token', $otp)->delete();
+               return $this->jsonFormat(403, 'error', "Token has expired, please try again");
+            }
         }
         return $this->jsonFormat(500, 'error', "An Error Occured");
     }
