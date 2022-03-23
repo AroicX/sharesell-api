@@ -15,6 +15,8 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Http;
+use App\Notifications\OtpNotification;
+use Illuminate\Support\Facades\Notification;
 // use Nexmo\Laravel\Facade\Nexmo;
 use Twilio\Rest\Client;
 
@@ -59,22 +61,37 @@ class BaseController extends Controller
             // } catch (Exception $e) {
             //     return response()->json([$e->getMessage()]);
             // }
-            $receiverNumber = ['234'. substr($phone, strlen($phone) - 10)];
+            $receiverNumber = '+234'. substr($phone, strlen($phone) - 10);
             $message = 'Your OTP is ' . $random . ' expires in 5mins.';
-            try {
-                // $account_sid = getenv("TWILIO_SID");
-                // $auth_token = getenv("TWILIO_TOKEN");
-                // $twilio_number = getenv("TWILIO_FROM");
-    
-                // $client = new Client($account_sid, $auth_token);
-                // $client->messages->create($receiverNumber, [
-                //     'from' => $twilio_number, 
-                //     'body' => $message]);
-                sendchamp()->sendSms($message, "Sharesell", $receiverNumber, '');
-
-            } catch (Exception $e) {
+            
+            try{
+                Http::withHeaders([
+                    'apiKey' => getenv("AT_KEY"),
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Accept' => 'application/json'
+                ])->asForm()->post('https://api.africastalking.com/version1/messaging', [
+                    'username' => getenv("AT_USERNAME"),
+                    'to' => $receiverNumber,
+                    "message" => $message,
+                    "enqueue" => '1'
+                ]);  
+            }catch (Exception $e){
                 return response()->json([$e->getMessage()]);
             }
+            // try {
+            //     // $account_sid = getenv("TWILIO_SID");
+            //     // $auth_token = getenv("TWILIO_TOKEN");
+            //     // $twilio_number = getenv("TWILIO_FROM");
+    
+            //     // $client = new Client($account_sid, $auth_token);
+            //     // $client->messages->create($receiverNumber, [
+            //     //     'from' => $twilio_number, 
+            //     //     'body' => $message]);
+            //     sendchamp()->sendSms($message, "Sharesell", $receiverNumber, '');
+
+            // } catch (Exception $e) {
+            //     return response()->json([$e->getMessage()]);
+            // }
 
             switch ($role) {
                 case '3':
