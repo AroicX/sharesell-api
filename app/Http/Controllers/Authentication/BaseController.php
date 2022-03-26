@@ -165,14 +165,29 @@ class BaseController extends Controller
         if($user) {
             $random = sprintf('%06d', mt_rand(1, 999999));
             $user->update(['one_time_password' => $random]);
-            $receiverNumber = ['234'. substr($phone, strlen($phone) - 10)];
+            $receiverNumber = '+234'. substr($phone, strlen($phone) - 10);
             $message = 'Your OTP is ' . $random . ' expires in 5mins.';
-            try {
-                sendchamp()->sendSms($message, "Sharesell", $receiverNumber, '');
+            // try {
+            //     sendchamp()->sendSms($message, "Sharesell", $receiverNumber, '');
 
-            } catch (Exception $e) {
+            // } catch (Exception $e) {
+            //     return response()->json([$e->getMessage()]);
+            // }
+            try{
+                $response = Http::withHeaders([
+                    'apiKey' => getenv("AT_KEY"),
+                    'Content-Type' => 'application/x-www-form-urlencoded',
+                    'Accept' => 'application/json'
+                ])->asForm()->post('https://api.africastalking.com/version1/messaging', [
+                    'username' => getenv("AT_USERNAME"),
+                    'to' => $receiverNumber,
+                    "message" => $message,
+                    "enqueue" => '1'
+                ]);  
+            }catch (Exception $e){
                 return response()->json([$e->getMessage()]);
             }
+
             return $this->jsonFormat(200, "success", "One Time Password has been sent to your Phone");
         }else {
             return $this->jsonFormat(404, 'error', "Invalid Phone Number");
